@@ -1,0 +1,146 @@
+<html>
+    <head>
+        <title>Bangla NLP | Curiosity AI</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+        <style>
+            #btnSubmit,
+            #btnSkip{
+                display: inline-block;
+                vertical-align: top;
+            }
+        </style>
+        <script src="https://s3.amazonaws.com/stitch-sdks/js/bundles/4.6.0/stitch.js"></script>
+
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-4">
+                    <br><br>
+                    <div class="jumbotron">
+                        <h3 class="display-4"><b><u>Instructions</u></b></h3>
+                        <small>Write the bengali transliteration of the word in the textbox and submit, click skip if you want to skip</small>
+                        <hr class="my-4">
+                        <b>
+                        <div class="list-group">
+                          <a href="#" class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                              <h5 class="mb-1">কবিতা </h5>
+
+                            </div>
+                            <p><b><small class="text-success">kobita
+                            <svg class="bi bi-check" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                              <path fill-rule="evenodd" d="M13.854 3.646a.5.5 0 010 .708l-7 7a.5.5 0 01-.708 0l-3.5-3.5a.5.5 0 11.708-.708L6.5 10.293l6.646-6.647a.5.5 0 01.708 0z" clip-rule="evenodd"/>
+                            </svg>
+                            </small></b></p>
+                            <p><b><small class="text-danger">poem
+                            <svg class="bi bi-x" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                              <path fill-rule="evenodd" d="M11.854 4.146a.5.5 0 010 .708l-7 7a.5.5 0 01-.708-.708l7-7a.5.5 0 01.708 0z" clip-rule="evenodd"/>
+                              <path fill-rule="evenodd" d="M4.146 4.146a.5.5 0 000 .708l7 7a.5.5 0 00.708-.708l-7-7a.5.5 0 00-.708 0z" clip-rule="evenodd"/>
+                            </svg>
+                            </small></b></p>
+                          </a>
+                          <a href="#" class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                              <h5 class="mb-1">বাজার</h5>
+
+                            </div>
+                            <p><b><small class="text-success">bajar
+                            <svg class="bi bi-check" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                              <path fill-rule="evenodd" d="M13.854 3.646a.5.5 0 010 .708l-7 7a.5.5 0 01-.708 0l-3.5-3.5a.5.5 0 11.708-.708L6.5 10.293l6.646-6.647a.5.5 0 01.708 0z" clip-rule="evenodd"/>
+                            </svg>
+                            </small></b></p>
+                            <p><b><small class="text-danger">market
+                            <svg class="bi bi-x" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                              <path fill-rule="evenodd" d="M11.854 4.146a.5.5 0 010 .708l-7 7a.5.5 0 01-.708-.708l7-7a.5.5 0 01.708 0z" clip-rule="evenodd"/>
+                              <path fill-rule="evenodd" d="M4.146 4.146a.5.5 0 000 .708l7 7a.5.5 0 00.708-.708l-7-7a.5.5 0 00-.708 0z" clip-rule="evenodd"/>
+                            </svg>
+                            </small></b></p>
+                          </a>
+
+                        </div>
+                        </b>
+
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                <center>
+                    <br><br><br>
+                    <h1 id="bn_text"><b>{{ word }}</b></h1>
+                    <br><br>
+                    <input id="en_text" type="text" class="form-control" placeholder="Word in English">
+                    <br>
+                    <button id="btnSkip" class="btn btn-primary btn-md center-block">Skip</button>
+                    <button id="btnSubmit" class="btn btn-success btn-md center-block" >Submit</button>
+                    <br><br><br>
+                    <span id="loading">sending ...</span>
+                </center>
+              </div>
+              <div class="col-sm-4">
+                  <br><br>
+                    <div class="jumbotron">
+                        <h3 class="display-4"><b><u>Dataset</u></b></h3>
+                        <small>Dataset will be available here : github.com/arijitx/BanglaNLP </small>
+                        <!--<small>If you want to contribute drop a mail arijitmukh007@gmail.com</small>-->
+
+
+                    </div>
+              </div>
+            </div>
+        </div>
+        <script>
+
+        </script>
+
+
+        <script>
+            const client = stitch.Stitch.initializeDefaultAppClient('bntransserve-fhipn');
+
+            $(document).ready(function(){
+                
+                const db = client.getServiceClient(stitch.RemoteMongoClient.factory, 'mongodb-atlas').db('trans');
+
+                client.auth.loginWithCredential(new stitch.AnonymousCredential()).then(user => 
+                    
+                    db.collection('bn').find({owner_id: client.auth.user.id}, { limit: 100}).asArray()
+                    
+                ).then(docs => {
+                    console.log("Found docs", docs)
+                    console.log(client.auth.user.id)
+                    console.log("[MongoDB Stitch] Connected to Stitch")
+                }).catch(err => {
+                    console.error(err)
+                });
+            });
+            
+            $("#loading").hide();
+            $("#btnSkip").click(function(){
+                location.reload();
+            });
+            $("#btnSubmit").click(function(){
+                $("#loading").show();
+                // const client = stitch.Stitch.initializeDefaultAppClient('bntransserve-fhipn');
+
+                const db = client.getServiceClient(stitch.RemoteMongoClient.factory, 'mongodb-atlas').db('trans');
+
+                client.auth.loginWithCredential(new stitch.AnonymousCredential()
+                ).then(user =>
+                    db.collection('bn').updateOne({owner_id: client.auth.user.id}, {$push:{ words :{en: $('#en_text').val(),bn: $('#bn_text').text()}}}, {upsert:true})
+                ).then(function(){
+                    db.close();
+                    location.reload();
+                }).catch(err => {
+                console.error(err)
+                });
+                // location.reload();
+                // $.post("add",{en: $('#en_text').val(),bn: $('#bn_text').text()},function(data,status){
+
+                // });
+            });
+        </script>
+    </body>
+</html>
