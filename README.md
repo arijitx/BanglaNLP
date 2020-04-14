@@ -3,4 +3,6 @@ Resources and Tool for Bangla language computation
 
 ## Datasets
 
-1. Bengali-English transliteration dataset
+| Dataset       | Raw   | Processed |
+| ------------- |:-------------:| --------- |
+|1Bengali-English transliteration | [path](data/transliteration/raw) | - |
