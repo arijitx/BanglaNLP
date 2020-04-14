@@ -140,12 +140,13 @@
                       db.collection('bn').updateOne({owner_id: client.auth.user.id}, {$push:{ words :{en: $('#en_text').val(),bn: $('#bn_text').text()}}}, {upsert:true})
                   ).then(function(){
                     //   db.close();
+                    
                       location.reload();
                   }).catch(err => {
                   console.error(err)
                   });
                 }
-                $("#loading").hide();
+                
                 // location.reload();
                 // $.post("add",{en: $('#en_text').val(),bn: $('#bn_text').text()},function(data,status){
 
@@ -153,7 +154,7 @@
             }
 
             $(document).ready(function(){
-                
+                $("#loading").hide();
                 const db = client.getServiceClient(stitch.RemoteMongoClient.factory, 'mongodb-atlas').db('trans');
 
                 client.auth.loginWithCredential(new stitch.AnonymousCredential()).then(user =>
