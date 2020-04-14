@@ -139,7 +139,7 @@
                   ).then(user =>
                       db.collection('bn').updateOne({owner_id: client.auth.user.id}, {$push:{ words :{en: $('#en_text').val(),bn: $('#bn_text').text()}}}, {upsert:true})
                   ).then(function(){
-                      db.close();
+                    //   db.close();
                       location.reload();
                   }).catch(err => {
                   console.error(err)
