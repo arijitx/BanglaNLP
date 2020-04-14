@@ -6,6 +6,7 @@
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+        <script async defer src="https://buttons.github.io/buttons.js"></script>
         <style>
             #btnSubmit,
             #btnSkip{
@@ -84,9 +85,10 @@
                   <br><br>
                     <div class="jumbotron">
                         <h3 class="display-4"><b><u>Dataset</u></b></h3>
-                        <small>Dataset will be available here : github.com/arijitx/BanglaNLP </small>
+                        <small>Dataset will be available <a href="github.com/arijitx/BanglaNLP">here</a></small><br/>
                         <!--<small>If you want to contribute drop a mail arijitmukh007@gmail.com</small>-->
-
+                        <a class="github-button" href="https://github.com/arijitx/BanglaNLP/subscription" data-color-scheme="no-preference: light; light: light; dark: dark;" data-icon="octicon-eye" data-show-count="true" aria-label="Watch arijitx/BanglaNLP on GitHub">Watch</a>
+                        <a class="github-button" href="https://github.com/arijitx/BanglaNLP" data-color-scheme="no-preference: light; light: light; dark: dark;" data-icon="octicon-star" data-show-count="true" aria-label="Star arijitx/BanglaNLP on GitHub">Star</a>
 
                     </div>
               </div>
@@ -100,21 +102,28 @@
         <script>
             const client = stitch.Stitch.initializeDefaultAppClient('bntransserve-fhipn');
 
+            function isEmpty(str) {
+                return (!str || !str.trim() || 0 === str.trim().length);
+            }
+
             function onClickHandler() {
                 $("#loading").show();
                 // const client = stitch.Stitch.initializeDefaultAppClient('bntransserve-fhipn');
 
-                const db = client.getServiceClient(stitch.RemoteMongoClient.factory, 'mongodb-atlas').db('trans');
+                if(!isEmpty($('#en_text').val()) && !isEmpty($('#bn_text').text())) {
+                  const db = client.getServiceClient(stitch.RemoteMongoClient.factory, 'mongodb-atlas').db('trans');
 
-                client.auth.loginWithCredential(new stitch.AnonymousCredential()
-                ).then(user =>
-                    db.collection('bn').updateOne({owner_id: client.auth.user.id}, {$push:{ words :{en: $('#en_text').val(),bn: $('#bn_text').text()}}}, {upsert:true})
-                ).then(function(){
-                    db.close();
-                    location.reload();
-                }).catch(err => {
-                console.error(err)
-                });
+                  client.auth.loginWithCredential(new stitch.AnonymousCredential()
+                  ).then(user =>
+                      db.collection('bn').updateOne({owner_id: client.auth.user.id}, {$push:{ words :{en: $('#en_text').val(),bn: $('#bn_text').text()}}}, {upsert:true})
+                  ).then(function(){
+                      db.close();
+                      location.reload();
+                  }).catch(err => {
+                  console.error(err)
+                  });
+                }
+                $("#loading").hide();
                 // location.reload();
                 // $.post("add",{en: $('#en_text').val(),bn: $('#bn_text').text()},function(data,status){
 
