@@ -100,6 +100,27 @@
         <script>
             const client = stitch.Stitch.initializeDefaultAppClient('bntransserve-fhipn');
 
+            function onClickHandler() {
+                $("#loading").show();
+                // const client = stitch.Stitch.initializeDefaultAppClient('bntransserve-fhipn');
+
+                const db = client.getServiceClient(stitch.RemoteMongoClient.factory, 'mongodb-atlas').db('trans');
+
+                client.auth.loginWithCredential(new stitch.AnonymousCredential()
+                ).then(user =>
+                    db.collection('bn').updateOne({owner_id: client.auth.user.id}, {$push:{ words :{en: $('#en_text').val(),bn: $('#bn_text').text()}}}, {upsert:true})
+                ).then(function(){
+                    db.close();
+                    location.reload();
+                }).catch(err => {
+                console.error(err)
+                });
+                // location.reload();
+                // $.post("add",{en: $('#en_text').val(),bn: $('#bn_text').text()},function(data,status){
+
+                // });
+            }
+
             $(document).ready(function(){
                 
                 const db = client.getServiceClient(stitch.RemoteMongoClient.factory, 'mongodb-atlas').db('trans');
@@ -121,25 +142,13 @@
             $("#btnSkip").click(function(){
                 location.reload();
             });
-            $("#btnSubmit").click(function(){
-                $("#loading").show();
-                // const client = stitch.Stitch.initializeDefaultAppClient('bntransserve-fhipn');
-
-                const db = client.getServiceClient(stitch.RemoteMongoClient.factory, 'mongodb-atlas').db('trans');
-
-                client.auth.loginWithCredential(new stitch.AnonymousCredential()
-                ).then(user =>
-                    db.collection('bn').updateOne({owner_id: client.auth.user.id}, {$push:{ words :{en: $('#en_text').val(),bn: $('#bn_text').text()}}}, {upsert:true})
-                ).then(function(){
-                    db.close();
-                    location.reload();
-                }).catch(err => {
-                console.error(err)
-                });
-                // location.reload();
-                // $.post("add",{en: $('#en_text').val(),bn: $('#bn_text').text()},function(data,status){
-
-                // });
+            $("#btnSubmit").click(onClickHandler);
+            $("#en_text").keydown(function(event){
+              if(event.keyCode === 27) {
+                location.reload();
+              } else if (event.keyCode === 13) {
+                onClickHandler();
+              }
             });
         </script>
     </body>
