@@ -5,4 +5,4 @@ Resources and Tool for Bangla language computation
 
 | Dataset       | Raw   | Processed |
 | ------------- |:-------------:| --------- |
-|1Bengali-English transliteration | [path](data/transliteration/raw) | - |
+|<b>Bengali-English transliteration </b>| [path](data/transliteration/raw) | - |
