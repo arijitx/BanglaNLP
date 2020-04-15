@@ -78,7 +78,7 @@
                     <button id="btnSkip" class="btn btn-primary btn-md center-block">Skip</button>
                     <button id="btnSubmit" class="btn btn-success btn-md center-block" >Submit</button>
                     <br><br><br>
-                    <span id="loading">sending ...</span>
+                    <span id="loading">Submitting ...</span>
                 </center>
               </div>
               <div class="col-sm-4">
@@ -96,10 +96,9 @@
                          Your contribution <span id="your_contrib" class="badge"></span>
                         </button>
                         <br><br>
-                        Progress
                         <br>
                         <button class="btn btn-primary" type="button">
-                         Total words <span id="tot_words" class="badge"></span>
+                         Goal <span id="tot_words" class="badge"></span>
                         </button>
                         <br><br>
                         <div class="progress">
@@ -116,11 +115,6 @@
             </div>
         </div>
         <script>
-
-        </script>
-
-
-        <script>
             const client = stitch.Stitch.initializeDefaultAppClient('bntransserve-fhipn');
 
             function isEmpty(str) {
@@ -128,10 +122,9 @@
             }
 
             function onClickHandler() {
-                $("#loading").show();
                 // const client = stitch.Stitch.initializeDefaultAppClient('bntransserve-fhipn');
-
                 if(!isEmpty($('#en_text').val()) && !isEmpty($('#bn_text').text())) {
+                  $("#loading").show();
                   const db = client.getServiceClient(stitch.RemoteMongoClient.factory, 'mongodb-atlas').db('trans');
 
                   client.auth.loginWithCredential(new stitch.AnonymousCredential()
@@ -146,10 +139,6 @@
                   });
                 }
                 
-                // location.reload();
-                // $.post("add",{en: $('#en_text').val(),bn: $('#bn_text').text()},function(data,status){
-
-                // });
             }
 
             $(document).ready(function(){
@@ -157,9 +146,7 @@
                 const db = client.getServiceClient(stitch.RemoteMongoClient.factory, 'mongodb-atlas').db('trans');
 
                 client.auth.loginWithCredential(new stitch.AnonymousCredential()).then(user =>
-
                     db.collection('contrib_by_owner').find({owner_id: client.auth.user.id}, { limit: 100}).asArray()
-
                 ).then(docs => {
                     console.log("Found docs", docs[0]["count"])
                     $("#your_contrib").text(docs[0]["count"])
@@ -168,9 +155,7 @@
                 });
 
                 client.auth.loginWithCredential(new stitch.AnonymousCredential()).then(user =>
-
                     db.collection('total_words').find().asArray()
-
                 ).then(docs => {
                     // console.log("Found docs", docs)
                     $("#tot_words").text(docs[0]['total']+" / 10,000");

@@ -1,5 +1,7 @@
 # BanglaNLP
-Resources and Tool for Bangla language computation
+Resources and Tools for Bangla linguistic computations and research.
+
+Visit http://banglanlp.curiosityai.codes/ 
 
 ## Datasets
 
