@@ -32,7 +32,7 @@
     </head>
     <body>
         <h1>Canvas Progress Bar Test</h1>
-        <img id ="im" width="100" height="100"></img>
+        <img id ="im" width="500" height="300" display></img>
         <canvas id="canvas" width="500" height="300"></canvas>
         <canvas id='imc'></canvas>
         <script>
@@ -41,6 +41,11 @@
                 var user = client.auth.user.id;
                 var canvas = document.getElementById('canvas'),
                 ctx = canvas.getContext('2d');
+                bg = new Image();
+                bg.onload = function(){
+                    ctx.drawImage(bg,0,0)
+                }
+                bg.src = "static/template.png";
                 function drawScrollbar () {
                     var width = 30,
                         height = 150,
@@ -77,12 +82,15 @@
                         FB.api('/me', function(response) {
                             ctx.strokeStyle = '#000';  // some color/style
                             ctx.lineWidth = 2;  
+                            
+
                             base_image.onload = function(){
                                 ctx.drawImage(base_image, 40, 100,150,150);
                                 ctx.strokeRect(36, 96, 154, 154);
                             }
                             base_image.crossOrigin = "anonymous";
                             base_image.src = "https://graph.facebook.com/" + response.id + "/picture?type=large";
+                            
                             drawScrollbar();
                             ctx.font = "30px Arial";
                             ctx.strokeText(response.name.split(" ")[0]+"'s Bangla Score'", 10, 50);
