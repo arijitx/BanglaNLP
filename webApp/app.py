@@ -30,8 +30,7 @@ def put_im():
 
 @app.route('/get_im')
 def get_im():
-    
-    return '<img src="'+str(img[-1])+'"/>'
+    return '<html><head><meta property="og:image" content="'+str(img[-1])+'"/></head><body><img src="'+str(img[-1])+'"/></body></html>'
 
 @app.route('/')
 def home():
