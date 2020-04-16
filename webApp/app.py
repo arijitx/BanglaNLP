@@ -20,4 +20,3 @@ lv = len(vocab)
 def home():
     w = vocab[randrange(lv)]
     return render_template('index.html',word=w)
-
