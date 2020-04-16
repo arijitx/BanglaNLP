@@ -24,7 +24,8 @@ def test():
 @app.route('/put_im',methods=['GET', 'POST'])
 def put_im():
     img.append(request.args.get('img'))
-    print(img[-1])
+    print("what is this",img[-1])
+    print("len",len(img))
     return "success"
 
 @app.route('/get_im')
