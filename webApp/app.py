@@ -25,12 +25,17 @@ def test():
 def put_im():
     img.append(request.values['img'])
     print("what is this",img[-1])
+    convert_and_save(img[-1])
     print("len",len(img))
     return "success"
 
+def convert_and_save(b64_string):
+    with open("static/im.png", "wb") as fh:
+        fh.write(base64.decodebytes(b64_string.encode()))
+    
 @app.route('/get_im')
 def get_im():
-    return '<html><head><meta property="og:image" content="https://bn-trans.herokuapp.com/get_im"/></head><body><img src="'+str(img[-1])+'"/></body></html>'
+    return '<html><head><meta property="og:image" content="https://bn-trans.herokuapp.com/im.png"/></head><body><img src="'+str(img[-1])+'"/></body></html>'
 
 @app.route('/')
 def home():
