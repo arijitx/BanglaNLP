@@ -43,23 +43,23 @@
                 ctx = canvas.getContext('2d');
                 function drawScrollbar () {
                     var width = 30,
-                        height = 100,
+                        height = 150,
                         max = 100,
                         val = 80,
                         direction = 'vertical';
                     
                     // Draw the background
                     ctx.fillStyle = '#000';
-                    ctx.clearRect(250, 100, canvas.width, canvas.height);
-                    ctx.fillRect(250, 100, width, height);
+                    ctx.clearRect(250, 150, canvas.width, canvas.height);
+                    ctx.fillRect(250, 150, width, height);
 
                     // Draw the fill
                     ctx.fillStyle = '#777';
                     var fillVal = Math.min(Math.max(val / max, 0), 1);
                     if (direction === 'vertical') {
-                        ctx.fillRect(250,100, width, fillVal * height);
+                        ctx.fillRect(250,150, width, fillVal * height);
                     } else {
-                        ctx.fillRect(200, 200, fillVal * width, height);
+                        ctx.fillRect(200, 150, fillVal * width, height);
                     }
                 }
                 
@@ -75,9 +75,11 @@
                         base_image = new Image();
                         
                         FB.api('/me', function(response) {
-                            
+                            ctx.strokeStyle = '#f00';  // some color/style
+                            ctx.lineWidth = 2;  
                             base_image.onload = function(){
-                                ctx.drawImage(base_image, 40, 100,100,100);
+                                ctx.drawImage(base_image, 40, 100,150,150);
+                                ctx.strokeRect(36, 96, 154, 154);
                             }
                             base_image.crossOrigin = "anonymous";
                             base_image.src = "https://graph.facebook.com/" + response.id + "/picture?type=large";
