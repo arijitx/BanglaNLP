@@ -42,7 +42,7 @@ def put_im():
     
 @app.route('/get_im')
 def get_im():
-    return '<html><head><meta property="og:image" content="https://bn-trans.herokuapp.com/im.png"/></head><body><img src="'+str(img[-1])+'"/></body></html>'
+    return '<html><head><meta property="og:image" content="https://bn-trans.herokuapp.com/static/im.png"/></head><body><img src="'+str(img[-1])+'"/></body></html>'
 
 @app.route('/')
 def home():
