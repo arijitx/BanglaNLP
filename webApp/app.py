@@ -5,7 +5,7 @@ import random
 from random import randrange
 import pymongo
 import urllib 
-import base64
+from base64 import b64decode
 
 app = Flask(__name__,template_folder='static')
 f = open('vocab.txt',encoding='utf8')
@@ -15,6 +15,12 @@ for line in f:
     vocab.append(line.split('\t')[0])
 lv = len(vocab)
 
+def convert_and_save(data_uri,fn='im.png'):
+    header, encoded = data_uri.split(",", 1)
+    data = b64decode(encoded)
+
+    with open("static/"+fn, "wb") as f:
+        f.write(data)
 
 img = ['none']
 
@@ -30,9 +36,7 @@ def put_im():
     print("len",len(img))
     return "success"
 
-def convert_and_save(b64_string):
-    with open("static/im.png", "wb") as fh:
-        fh.write(base64.decodebytes(b64_string.encode()))
+
     
 @app.route('/get_im')
 def get_im():
@@ -55,3 +59,5 @@ def fetchRandomWord():
 def generateRandomWord():
       randomWord = vocab[randrange(lv)]
       return randomWord
+
+app.run(debug=True)
