@@ -24,9 +24,33 @@
                     url : '/fetchRandomWord',
                     success: function (data) {
                       document.getElementById("bn_text").innerHTML = data;
+                      document.getElementById("en_text").value = null;
                     }
 	                });
              };
+
+            function fetchContributionAndProgress(){
+              $("#loading").hide();
+                const db = client.getServiceClient(stitch.RemoteMongoClient.factory, 'mongodb-atlas').db('trans');
+                client.auth.loginWithCredential(new stitch.AnonymousCredential()).then(user =>
+                    db.collection('contrib_by_owner').find({owner_id: client.auth.user.id}, { limit: 100}).asArray()
+                ).then(docs => {
+                    console.log("Found docs", docs[0]["count"])
+                    $("#your_contrib").text(docs[0]["count"])
+                }).catch(err => {
+                    console.error(err)
+                });
+                client.auth.loginWithCredential(new stitch.AnonymousCredential()).then(user =>
+                    db.collection('total_words').find().asArray()
+                ).then(docs => {
+                    // console.log("Found docs", docs)
+                    $("#tot_words").text(docs[0]['total']+" / 10,000");
+                    var valeur = parseInt(docs[0]['total'])/100;
+                    $("#prog").attr("aria-valuenow",valeur).css('width', valeur+'%');
+                }).catch(err => {
+                    console.error(err)
+                });
+            }
         </script>
     </head>
     <body>
@@ -149,16 +173,16 @@
 
                   client.auth.loginWithCredential(new stitch.AnonymousCredential()
                   ).then(user =>
-                      db.collection('bn').updateOne({owner_id: client.auth.user.id}, {$push:{ words :{en: $('#en_text').val(),bn: $('#bn_text').text()}}}, {upsert:true})
+                      db.collection('bn').updateOne({owner_id: client.auth.user.id}, {$push:{ words :{en: $('#en_text').val(),bn: $('#bn_text').text()}}}, {upsert:true})  
                   ).then(function(){
                     //   db.close();
-                    
-                      location.reload();
                   }).catch(err => {
                   console.error(err)
                   });
                 }
-                
+                fetchContributionAndProgress();
+                document.getElementById("en_text").value = null;
+                $("#loading").hide();
                 // location.reload();
                 // $.post("add",{en: $('#en_text').val(),bn: $('#bn_text').text()},function(data,status){
 
@@ -166,32 +190,7 @@
             }
 
             $(document).ready(function(){
-                $("#loading").hide();
-                const db = client.getServiceClient(stitch.RemoteMongoClient.factory, 'mongodb-atlas').db('trans');
-
-                client.auth.loginWithCredential(new stitch.AnonymousCredential()).then(user =>
-
-                    db.collection('contrib_by_owner').find({owner_id: client.auth.user.id}, { limit: 100}).asArray()
-
-                ).then(docs => {
-                    console.log("Found docs", docs[0]["count"])
-                    $("#your_contrib").text(docs[0]["count"])
-                }).catch(err => {
-                    console.error(err)
-                });
-
-                client.auth.loginWithCredential(new stitch.AnonymousCredential()).then(user =>
-
-                    db.collection('total_words').find().asArray()
-
-                ).then(docs => {
-                    // console.log("Found docs", docs)
-                    $("#tot_words").text(docs[0]['total']+" / 10,000");
-                    var valeur = parseInt(docs[0]['total'])/100;
-                    $("#prog").attr("aria-valuenow",valeur).css('width', valeur+'%');
-                }).catch(err => {
-                    console.error(err)
-                });
+              fetchContributionAndProgress();
             });
             
             $("#loading").hide();
