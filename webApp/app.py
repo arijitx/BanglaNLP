@@ -15,11 +15,11 @@ for line in f:
 lv = len(vocab)
 
 
-
 @app.route('/')
 def home():
     randomWord = generateRandomWord()
     return render_template('index.html', word=randomWord)
+
 
 # Role:    Fetching Random Words and Returning to the fetchRandomWords() Javascript Method.
 # Author:  Rangan Roy (roy.rangan7@gmail.com).
@@ -34,7 +34,4 @@ def generateRandomWord():
       randomWord = vocab[randrange(lv)]
       return randomWord
 
-if __name__ == '__main__':
-    app.run()
 
-app.run(host='0.0.0.0', debug=True)

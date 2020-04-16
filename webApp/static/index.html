@@ -53,7 +53,8 @@
                     console.error(err)
                 });
             }
-        </script>
+
+       </script>
     </head>
     <body>
         <div class="container">
@@ -116,16 +117,15 @@
                     <button id="btnSkip" class="btn btn-primary btn-md center-block">Skip</button>
                     <button id="btnSubmit" class="btn btn-success btn-md center-block" >Submit</button>
                     <br><br><br>
-                    <span id="loading">sending ...</span>
+                    <span id="loading">Submitting ...</span>
                 </center>
               </div>
               <div class="col-sm-4">
                   <br><br>
                     <div class="jumbotron">
                         <h3 class="display-4"><b><u>Dataset</u></b></h3>
-                        <small>Dataset will be available <a href="github.com/arijitx/BanglaNLP">here</a></small><br/>
+                        <small>Dataset will be available in this Github <a href="https://github.com/arijitx/BanglaNLP">repository.</a></small><br/>
                         <!--<small>If you want to contribute drop a mail arijitmukh007@gmail.com</small>-->
-                        <br>
                         <br>
                         <a class="github-button" href="https://github.com/arijitx/BanglaNLP/subscription" data-color-scheme="no-preference: light; light: light; dark: dark;" data-icon="octicon-eye" data-show-count="true" aria-label="Watch arijitx/BanglaNLP on GitHub">Watch</a>
                         <a class="github-button" href="https://github.com/arijitx/BanglaNLP" data-color-scheme="no-preference: light; light: light; dark: dark;" data-icon="octicon-star" data-show-count="true" aria-label="Star arijitx/BanglaNLP on GitHub">Star</a>
@@ -135,10 +135,9 @@
                          Your contribution <span id="your_contrib" class="badge"></span>
                         </button>
                         <br><br>
-                        Progress
                         <br>
                         <button class="btn btn-primary" type="button">
-                         Total words <span id="tot_words" class="badge"></span>
+                         Goal <span id="tot_words" class="badge"></span>
                         </button>
                         <br><br>
                         <div class="progress">
@@ -155,11 +154,6 @@
             </div>
         </div>
         <script>
-
-        </script>
-
-
-        <script>
             const client = stitch.Stitch.initializeDefaultAppClient('bntransserve-fhipn');
 
             function isEmpty(str) {
@@ -167,9 +161,9 @@
             }
 
             function onClickHandler() {
-                $("#loading").show();
                 // const client = stitch.Stitch.initializeDefaultAppClient('bntransserve-fhipn');
                 if(!isEmpty($('#en_text').val()) && !isEmpty($('#bn_text').text())) {
+                  $("#loading").show();
                   const db = client.getServiceClient(stitch.RemoteMongoClient.factory, 'mongodb-atlas').db('trans');
                   client.auth.loginWithCredential(new stitch.AnonymousCredential()
                   ).then(user =>
@@ -192,6 +186,9 @@
 
             $(document).ready(function(){
               fetchContributionAndProgress();
+           
+            }
+
             });
             
             $("#loading").hide();
