@@ -60,4 +60,4 @@ def generateRandomWord():
       randomWord = vocab[randrange(lv)]
       return randomWord
 
-app.run(debug=True)
+# app.run(debug=True)
