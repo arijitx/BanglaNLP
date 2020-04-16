@@ -8,7 +8,7 @@ import urllib
 from base64 import b64decode
 from os import path
 
-app = Flask(__name__,template_folder='static')
+app = Flask(__name__,template_folder='static',static_folder='static')
 f = open('vocab.txt',encoding='utf8')
 
 vocab = []
