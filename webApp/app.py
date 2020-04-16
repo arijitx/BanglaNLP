@@ -15,7 +15,7 @@ for line in f:
 lv = len(vocab)
 
 
-img = None
+img = ''
 
 @app.route('/test')
 def test():
