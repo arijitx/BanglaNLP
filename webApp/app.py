@@ -6,6 +6,7 @@ from random import randrange
 import pymongo
 import urllib 
 from base64 import b64decode
+from os import path
 
 app = Flask(__name__,template_folder='static')
 f = open('vocab.txt',encoding='utf8')
@@ -19,8 +20,9 @@ def convert_and_save(data_uri,fn='im.png'):
     header, encoded = data_uri.split(",", 1)
     data = b64decode(encoded)
 
-    with open("static/"+fn, "wb") as f:
+    with open("/app/static/"+fn, "wb") as f:
         f.write(data)
+    print(path.exists("/app/static/"+fn))
 
 img = ['none']
 
