@@ -77,13 +77,13 @@
                         FB.api('/me', function(response) {
                             
                             base_image.onload = function(){
-                                ctx.drawImage(base_image, 40, 100);
+                                ctx.drawImage(base_image, 40, 100,100,100);
                             }
                             base_image.crossOrigin = "anonymous";
                             base_image.src = "https://graph.facebook.com/" + response.id + "/picture?type=large";
                             drawScrollbar();
                             ctx.font = "30px Arial";
-                            ctx.strokeText(response.name.split(" ")[0]+"'s Bangla Score'", 10, 10);
+                            ctx.strokeText(response.name.split(" ")[0]+"'s Bangla Score'", 10, 50);
                             setTimeout(function(){
                                 var dataURL = canvas.toDataURL();
                                 console.log(dataURL);
