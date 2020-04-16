@@ -28,7 +28,9 @@
                     }
 	                });
              };
-
+            
+            // Role:       Fetching Users Contribution and Total Number of Words contributed by all the users.
+            // Updated By: Rangan Roy (roy.rangan7@gmail.com).
             function fetchContributionAndProgress(){
               $("#loading").hide();
                 const db = client.getServiceClient(stitch.RemoteMongoClient.factory, 'mongodb-atlas').db('trans');
@@ -167,20 +169,19 @@
             function onClickHandler() {
                 $("#loading").show();
                 // const client = stitch.Stitch.initializeDefaultAppClient('bntransserve-fhipn');
-
                 if(!isEmpty($('#en_text').val()) && !isEmpty($('#bn_text').text())) {
                   const db = client.getServiceClient(stitch.RemoteMongoClient.factory, 'mongodb-atlas').db('trans');
-
                   client.auth.loginWithCredential(new stitch.AnonymousCredential()
                   ).then(user =>
                       db.collection('bn').updateOne({owner_id: client.auth.user.id}, {$push:{ words :{en: $('#en_text').val(),bn: $('#bn_text').text()}}}, {upsert:true})  
                   ).then(function(){
+                    fetchContributionAndProgress();
+                    fetchRandomWords();
                     //   db.close();
                   }).catch(err => {
                   console.error(err)
                   });
                 }
-                fetchContributionAndProgress();
                 document.getElementById("en_text").value = null;
                 $("#loading").hide();
                 // location.reload();
