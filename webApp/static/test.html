@@ -81,6 +81,7 @@
                             base_image.src = "https://graph.facebook.com/" + response.id + "/picture?type=large";
                             drawScrollbar();
                             var dataURL = canvas.toDataURL();
+                            console.log(dataURL);
                             $.ajax({
                                 type: "POST", 
                                 url: "put_im", 
