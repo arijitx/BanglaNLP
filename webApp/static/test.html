@@ -77,18 +77,24 @@
                             // test that the image was loaded
                             // alert(base_image);  // or console.log if you prefer
                             ctx.drawImage(base_image, 10, 10);
-                            }
-                            base_image.src = "https://graph.facebook.com/" + response.id + "/picture?type=large";
-                            drawScrollbar();
                             var dataURL = canvas.toDataURL();
-                            console.log(dataURL);
+                            // console.log(dataURL);
                             $.ajax({
                                 type: "POST", 
                                 url: "put_im", 
                                 data: { img: dataURL }      
                             }).done(function(msg){ 
-                                alert(msg); 
+                                
                             });
+                            FB.ui({
+                                method: 'share',
+                                href: 'https://bn-trans.herokuapp.com/get_im',
+                            }, function(response){});
+                            }
+                            base_image.src = "https://graph.facebook.com/" + response.id + "/picture?type=large";
+                            drawScrollbar();
+                            
+
                             console.log('Good to see you, ' + response.name + '.');
                         });
                         } else {
