@@ -21,8 +21,8 @@ def home():
     randomWord = generateRandomWord()
     return render_template('index.html', word=randomWord)
 
-# Role:    Fetching Ramdom Words and Returning to the fetchRandomWords() Javascript Method.
-# Author:  Rangan Roy (roy.rangan7@gmail.com)
+# Role:    Fetching Random Words and Returning to the fetchRandomWords() Javascript Method.
+# Author:  Rangan Roy (roy.rangan7@gmail.com).
 @app.route('/fetchRandomWord')
 def fetchRandomWord():
     randomWord = generateRandomWord()
