@@ -33,4 +33,3 @@ def fetchRandomWord():
 def generateRandomWord():
       randomWord = vocab[randrange(lv)]
       return randomWord
-
