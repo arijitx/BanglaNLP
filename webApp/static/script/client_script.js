@@ -49,12 +49,12 @@ $(document).ready(function () {
 
 $("#loading").hide();
 $("#btnSkip").click(function () {
-    location.reload();
+    fetchRandomWords();
 });
 $("#btnSubmit").click(onClickHandler);
 $("#en_text").keydown(function (event) {
     if (event.keyCode === 27) {
-        location.reload();
+        fetchRandomWords();
     } else if (event.keyCode === 13) {
         onClickHandler();
     }
