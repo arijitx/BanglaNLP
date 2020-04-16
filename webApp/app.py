@@ -15,7 +15,7 @@ for line in f:
 lv = len(vocab)
 
 
-img = ''
+img = ['none']
 
 @app.route('/test')
 def test():
@@ -23,12 +23,13 @@ def test():
 
 @app.route('/put_im',methods=['GET', 'POST'])
 def put_im():
-    img = request.form.get('img')
+    img.append(request.args.get('img'))
+    print(img[-1])
     return "success"
 
 @app.route('/get_im')
 def get_im():
-    return img
+    return str(img[-1])
 
 @app.route('/')
 def home():
