@@ -71,28 +71,28 @@
                         
                         FB.api('/me', function(response) {
                             
-                            // ctx.drawImage(dp, 10, 10);
-                            base_image.onload = function()
-                            {
-                            // test that the image was loaded
-                            // alert(base_image);  // or console.log if you prefer
-                            ctx.drawImage(base_image, 10, 10);
-                            var dataURL = canvas.toDataURL();
-                            // console.log(dataURL);
-                            $.ajax({
-                                type: "POST", 
-                                url: "put_im", 
-                                data: { img: dataURL }      
-                            }).done(function(msg){ 
+                            base_image.onload = function(){
+
+                                ctx.drawImage(base_image, 10, 10);
                                 
-                            });
-                            FB.ui({
-                                method: 'share',
-                                href: 'https://bn-trans.herokuapp.com/get_im',
-                            }, function(response){});
                             }
                             base_image.src = "https://graph.facebook.com/" + response.id + "/picture?type=large";
                             drawScrollbar();
+                            setTimeout(function(){
+                                var dataURL = canvas.toDataURL();
+                                console.log(dataURL);
+                                $.ajax({
+                                    type: "POST", 
+                                    url: "put_im", 
+                                    data: { img: dataURL }      
+                                }).done(function(msg){ 
+                                    FB.ui({
+                                    method: 'share',
+                                    href: 'https://bn-trans.herokuapp.com/get_im',
+                                }, function(response){});
+                                });
+                            }, 2000);
+                            
                             
 
                             console.log('Good to see you, ' + response.name + '.');
