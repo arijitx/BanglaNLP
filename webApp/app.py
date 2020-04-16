@@ -23,7 +23,7 @@ def test():
 
 @app.route('/put_im',methods=['GET', 'POST'])
 def put_im():
-    img.append(request.json.get('img'))
+    img.append(request.values['img'])
     print("what is this",img[-1])
     print("len",len(img))
     return "success"
