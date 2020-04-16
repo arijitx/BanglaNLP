@@ -32,7 +32,7 @@
     </head>
     <body>
         <h1>Canvas Progress Bar Test</h1>
-        <img id ="im" width="500" height="300" display></img>
+        <!-- <img id ="im" width="500" height="300" display></img> -->
         <canvas id="canvas" width="500" height="300"></canvas>
         <canvas id='imc'></canvas>
         <script>
@@ -41,6 +41,9 @@
                 var user = client.auth.user.id;
                 var canvas = document.getElementById('canvas'),
                 ctx = canvas.getContext('2d');
+                ctx.strokeStyle = '#000';  // some color/style
+                ctx.lineWidth = 2;  
+
                 bg = new Image();
                 bg.onload = function(){
                     ctx.drawImage(bg,0,0)
@@ -55,7 +58,7 @@
                     
                     // Draw the background
                     ctx.fillStyle = '#000';
-                    ctx.clearRect(250, 100, canvas.width, canvas.height);
+                    ctx.clearRect(250, 100, width, height);
                     ctx.fillRect(250, 100, width, height);
 
                     // Draw the fill
@@ -63,6 +66,8 @@
                     var fillVal = Math.min(Math.max(val / max, 0), 1);
                     if (direction === 'vertical') {
                         ctx.fillRect(250,100, width, fillVal * height);
+                        ctx.strokeRect(248, 98, 32, 102);
+
                     } else {
                         ctx.fillRect(200, 100, fillVal * width, height);
                     }
@@ -80,8 +85,7 @@
                         base_image = new Image();
                         
                         FB.api('/me', function(response) {
-                            ctx.strokeStyle = '#000';  // some color/style
-                            ctx.lineWidth = 2;  
+
                             
 
                             base_image.onload = function(){
