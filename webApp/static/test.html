@@ -50,16 +50,16 @@
                     
                     // Draw the background
                     ctx.fillStyle = '#000';
-                    ctx.clearRect(250, 150, canvas.width, canvas.height);
-                    ctx.fillRect(250, 150, width, height);
+                    ctx.clearRect(250, 100, canvas.width, canvas.height);
+                    ctx.fillRect(250, 100, width, height);
 
                     // Draw the fill
                     ctx.fillStyle = '#777';
                     var fillVal = Math.min(Math.max(val / max, 0), 1);
                     if (direction === 'vertical') {
-                        ctx.fillRect(250,150, width, fillVal * height);
+                        ctx.fillRect(250,100, width, fillVal * height);
                     } else {
-                        ctx.fillRect(200, 150, fillVal * width, height);
+                        ctx.fillRect(200, 100, fillVal * width, height);
                     }
                 }
                 
@@ -75,7 +75,7 @@
                         base_image = new Image();
                         
                         FB.api('/me', function(response) {
-                            ctx.strokeStyle = '#f00';  // some color/style
+                            ctx.strokeStyle = '#000';  // some color/style
                             ctx.lineWidth = 2;  
                             base_image.onload = function(){
                                 ctx.drawImage(base_image, 40, 100,150,150);
