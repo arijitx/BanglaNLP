@@ -65,7 +65,7 @@
                     ctx.fillStyle = '#777';
                     var fillVal = Math.min(Math.max(val / max, 0), 1);
                     if (direction === 'vertical') {
-                        ctx.fillRect(250,100, width, fillVal * height);
+                        ctx.fillRect(250,100, width, val);
                         ctx.strokeRect(248, 98, 32, 102);
 
                     } else {
