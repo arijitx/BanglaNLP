@@ -18,8 +18,21 @@ lv = len(vocab)
 
 @app.route('/')
 def home():
-    w = vocab[randrange(lv)]
-    return render_template('index.html',word=w)
+    randomWord = generateRandomWord()
+    return render_template('index.html', word=randomWord)
+
+# Role:    Fetching Random Words and Returning to the fetchRandomWords() Javascript Method.
+# Author:  Rangan Roy (roy.rangan7@gmail.com).
+@app.route('/fetchRandomWord')
+def fetchRandomWord():
+    randomWord = generateRandomWord()
+    return randomWord
+
+# Role:    Generating Random Word.
+# Author:  Rangan Roy (roy.rangan7@gmail.com)
+def generateRandomWord():
+      randomWord = vocab[randrange(lv)]
+      return randomWord
 
 if __name__ == '__main__':
     app.run()

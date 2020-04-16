@@ -15,7 +15,19 @@
             }
         </style>
         <script src="https://s3.amazonaws.com/stitch-sdks/js/bundles/4.6.0/stitch.js"></script>
-
+        <script>
+          // Role:    On click of skip button, fetching Random Words and Displaying it above the Text Box Without Reloading the Page.
+          // Author:  Rangan Roy (roy.rangan7@gmail.com).
+          function fetchRandomWords(){
+            $.ajax({
+                    type : "GET",
+                    url : '/fetchRandomWord',
+                    success: function (data) {
+                      document.getElementById("bn_text").innerHTML = data;
+                    }
+	                });
+             };
+        </script>
     </head>
     <body>
         <div class="container">
@@ -184,7 +196,7 @@
             
             $("#loading").hide();
             $("#btnSkip").click(function(){
-                location.reload();
+              fetchRandomWords();
             });
             $("#btnSubmit").click(onClickHandler);
             $("#en_text").keydown(function(event){
