@@ -5,6 +5,7 @@ import random
 from random import randrange
 import pymongo
 import urllib 
+import base64
 
 app = Flask(__name__,template_folder='static')
 f = open('vocab.txt',encoding='utf8')
