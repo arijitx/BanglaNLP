@@ -1,0 +1,107 @@
+<html>
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://connect.facebook.net/en_US/sdk.js"></script>
+        <script>
+            window.fbAsyncInit = function() {
+              
+            };
+          </script>
+          
+          <style>
+
+            h1 {
+            font-size: 20px;
+            margin: 5px 5px 10px;
+            }
+
+            input[type="number"], li {
+            display: block;
+            margin-bottom: 10px;
+            }
+
+            form {
+            margin: 5px;
+            }
+
+            canvas {
+            padding: 20px;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Canvas Progress Bar Test</h1>
+        <img id ="im"></img>
+        <canvas id="canvas" width="500" height="500"></canvas>
+        <script>
+            $(document).ready(function(){
+                var canvas = document.getElementById('canvas'),
+                ctx = canvas.getContext('2d');
+                function drawScrollbar () {
+                    var width = 30,
+                        height = 200,
+                        max = 100,
+                        val = 80,
+                        direction = 'vertical';
+                    
+                    // Draw the background
+                    ctx.fillStyle = '#000';
+                    ctx.clearRect(200, 200, canvas.width, canvas.height);
+                    ctx.fillRect(200, 200, width, height);
+
+                    // Draw the fill
+                    ctx.fillStyle = '#777';
+                    var fillVal = Math.min(Math.max(val / max, 0), 1);
+                    if (direction === 'vertical') {
+                        ctx.fillRect(200,200, width, fillVal * height);
+                    } else {
+                        ctx.fillRect(200, 200, fillVal * width, height);
+                    }
+                }
+                FB.init({
+                    appId            : '531999777464234',
+                    autoLogAppEvents : true,
+                    xfbml            : true,
+                    version          : 'v6.0'
+                });
+                FB.login(function(response) {
+                        if (response.authResponse) {
+                        console.log('Welcome!  Fetching your information.... ');
+                        base_image = new Image();
+                        
+                        FB.api('/me', function(response) {
+                            
+                            // ctx.drawImage(dp, 10, 10);
+                            base_image.onload = function()
+                            {
+                            // test that the image was loaded
+                            // alert(base_image);  // or console.log if you prefer
+                            ctx.drawImage(base_image, 10, 10);
+                            }
+                            base_image.src = "https://graph.facebook.com/" + response.id + "/picture?type=large";
+                            drawScrollbar();
+                            var dataURL = canvas.toDataURL();
+                            $.ajax({
+                                type: "POST", 
+                                url: "put_im", 
+                                data: { img: dataURL }      
+                            }).done(function(msg){ 
+                                alert(msg); 
+                            });
+                            console.log('Good to see you, ' + response.name + '.');
+                        });
+                        } else {
+                            console.log('User cancelled login or did not fully authorize.');
+                        }
+                        
+                    });
+            });
+            
+                                        
+            
+
+            
+
+        </script>
+    </body>
+</html>
