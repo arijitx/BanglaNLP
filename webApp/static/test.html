@@ -33,6 +33,7 @@
         <h1>Canvas Progress Bar Test</h1>
         <img id ="im"></img>
         <canvas id="canvas" width="500" height="500"></canvas>
+        <canvas id='imc'></canvas>
         <script>
             $(document).ready(function(){
                 var canvas = document.getElementById('canvas'),
@@ -76,6 +77,7 @@
                                 ctx.drawImage(base_image, 10, 10);
                                 
                             }
+                            base_image.crossOrigin = "anonymous";
                             base_image.src = "https://graph.facebook.com/" + response.id + "/picture?type=large";
                             drawScrollbar();
                             setTimeout(function(){
