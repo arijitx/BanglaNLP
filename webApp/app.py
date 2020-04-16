@@ -28,6 +28,8 @@ def fetchRandomWord():
     randomWord = generateRandomWord()
     return randomWord
 
+# Role:    Generating Random Word.
+# Author:  Rangan Roy (roy.rangan7@gmail.com)
 def generateRandomWord():
       randomWord = vocab[randrange(lv)]
       return randomWord
