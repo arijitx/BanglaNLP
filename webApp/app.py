@@ -33,7 +33,7 @@ def test():
 @app.route('/put_im',methods=['GET', 'POST'])
 def put_im():
     uid = request.form.get('uid')
-    convert_and_save(request.values['img'], fn=uid)
+    convert_and_save(request.values['img'], fn=uid+'.png')
     print("userid",uid)
     return "success"
 
