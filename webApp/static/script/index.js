@@ -4,6 +4,7 @@ const client = stitch.Stitch.initializeDefaultAppClient('bntransserve-fhipn');
 var counter = 0;
 var score = 0;
 var user = '';
+var avro = OmicronLab.Avro.Phonetic;
 
 function initFBshare(){
     var canvas = document.getElementById('canvas'),
@@ -15,7 +16,7 @@ function initFBshare(){
     bg.onload = function(){
         ctx.drawImage(bg,0,0)
     }
-    bg.src = "static/template.png";
+    bg.src = "static/img/template.png";
     function drawScrollbar () {
         var width = 145,
             height = 15,
@@ -132,22 +133,46 @@ function isEmpty(str) {
     return (!str || !str.trim() || 0 === str.trim().length);
 }
 
+function updateScore() {
+    document.getElementById("score-area").innerHTML = score;
+}
+
+function getScoreFromSimilarityScore(simscore){
+    if (simscore >= 0.8)
+        return Math.random() * (1 - 0.8) + 0.8;
+    else
+        return Math.random() * (0.8 - 0.4) + 0.4;
+}
+
+function similarity_score(a, b) {
+    var distance = levenshteinenator(a, b);
+    var similarity = 1 - (distance * 1.0) / Math.max(a.length, b.length);
+    return similarity;
+}
+
 function onClickHandler() {
     // const client = stitch.Stitch.initializeDefaultAppClient('bntransserve-fhipn');
     if(!isEmpty($('#en_text').val()) && !isEmpty($('#bn_text').text())) {
       $("#loading").show();
+      var user_input = $('#en_text').val();
+      var avro_output = avro.parse(user_input);
+      console.log('Avro output: ' + avro_output);
+      var bn_text = $('#bn_text').text();
       const db = client.getServiceClient(stitch.RemoteMongoClient.factory, 'mongodb-atlas').db('trans');
       client.auth.loginWithCredential(new stitch.AnonymousCredential()
       ).then(user =>
-          db.collection('bn').updateOne({owner_id: client.auth.user.id}, {$push:{ words :{en: $('#en_text').val(),bn: $('#bn_text').text()}}}, {upsert:true})  
+          db.collection('bn').updateOne({owner_id: client.auth.user.id}, {$push:{ words :{en: user_input,bn: bn_text}}}, {upsert:true})  
       ).then(function(){
         counter += 1;
-        score += 1;
+        var currentScore = similarity_score(avro_output, bn_text);
+        var normalizedScore = getScoreFromSimilarityScore(currentScore);
+        score += Math.round((normalizedScore / count) * 100)
         document.getElementById("en_text").value = null;
         $("#loading").hide();
         fetchContributionAndProgress();
         fetchRandomWords();
-        console.log(counter);
+        updateScore();
+        console.log("Counter : " + counter + " Present Score : " + currentScore + " Total Score : " + score);
         if(counter == 3){
             $('#fbShareModal').modal('toggle');
             initFBshare();
@@ -161,6 +186,7 @@ function onClickHandler() {
 $(document).ready(function () {
     $("#loading").hide();
     fetchContributionAndProgress();
+    updateScore();
 });
 
 $("#loading").hide();
