@@ -1,6 +1,96 @@
 const client = stitch.Stitch.initializeDefaultAppClient('bntransserve-fhipn');
 // Role:    On click of skip button, fetching Random Words and Displaying it above the Text Box Without Reloading the Page.
 // Author:  Rangan Roy (roy.rangan7@gmail.com).
+var counter = 0;
+var score = 0;
+function initFBshare(){
+    var canvas = document.getElementById('canvas'),
+    ctx = canvas.getContext('2d');
+    ctx.strokeStyle = '#000';  // some color/style
+    ctx.lineWidth = 2;  
+
+    bg = new Image();
+    bg.onload = function(){
+        ctx.drawImage(bg,0,0)
+    }
+    bg.src = "static/template.png";
+    function drawScrollbar () {
+        var width = 30,
+            height = 150,
+            max = 100,
+            val = 80,
+            direction = 'vertical';
+        
+        // Draw the background
+        ctx.fillStyle = '#000';
+        ctx.clearRect(250, 100, width, height);
+        ctx.fillRect(250, 100, width, height);
+
+        // Draw the fill
+        ctx.fillStyle = '#777';
+        var fillVal = Math.min(Math.max(val / max, 0), 1);
+        if (direction === 'vertical') {
+            ctx.fillRect(250,100, width, (max-val)*height/max );
+            // ctx.strokeRect(248, 98, 32, 150);
+
+        } else {
+            ctx.fillRect(200, 100, fillVal * width, height);
+        }
+    }
+    
+    FB.init({
+        appId            : '531999777464234',
+        autoLogAppEvents : true,
+        xfbml            : true,
+        version          : 'v6.0'
+    });
+    FB.login(function(response) {
+            if (response.authResponse) {
+            console.log('Welcome!  Fetching your information.... ');
+            base_image = new Image();
+            
+            FB.api('/me', function(response) {
+
+                
+                var user = response.id;
+                base_image.onload = function(){
+                    ctx.drawImage(base_image, 40, 100,150,150);
+                    // ctx.strokeRect(36, 96, 154, 154);
+                    
+                    
+                    ctx.font = "30px Arial";
+                    ctx.fillText(response.name, 10, 50);
+                    drawScrollbar();
+                    var dataURL = canvas.toDataURL('image/jpeg');
+                    console.log(dataURL);
+                    $.ajax({
+                        type: "POST", 
+                        url: "put_im", 
+                        data: { img: dataURL, uid: user }  
+                    }).done(function(msg){ 
+                        console.log('https://bn-trans.herokuapp.com/get_im?q='+user);
+                        FB.ui({
+                        method: 'share',
+                        href: 'https://bn-trans.herokuapp.com/get_im?q='+user,
+                    }, function(response){});
+                    });
+                }
+                base_image.crossOrigin = "anonymous";
+                base_image.src = "https://graph.facebook.com/" + response.id + "/picture?type=large";
+                
+                
+                
+                
+                
+
+                console.log('Good to see you, ' + response.name + '.');
+            });
+            } else {
+                console.log('User cancelled login or did not fully authorize.');
+            }
+            
+        });
+}
 function fetchRandomWords(){
 $.ajax({
         type : "GET",
@@ -50,19 +140,20 @@ function onClickHandler() {
       ).then(user =>
           db.collection('bn').updateOne({owner_id: client.auth.user.id}, {$push:{ words :{en: $('#en_text').val(),bn: $('#bn_text').text()}}}, {upsert:true})  
       ).then(function(){
+        counter += 1;
+        score += 1;
+        document.getElementById("en_text").value = null;
+        $("#loading").hide();
         fetchContributionAndProgress();
         fetchRandomWords();
-        //   db.close();
+        
+        if(counter == 5){
+
+        }
       }).catch(err => {
-      console.error(err)
+        console.error(err)
       });
     }
-    document.getElementById("en_text").value = null;
-    $("#loading").hide();
-    // location.reload();
-    // $.post("add",{en: $('#en_text').val(),bn: $('#bn_text').text()},function(data,status){
-
-    // });
 }
 
 $(document).ready(function () {
