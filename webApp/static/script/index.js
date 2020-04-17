@@ -160,7 +160,7 @@ function onClickHandler() {
         counter += 1;
         var currentScore = levenshteinenator(avro_output, bn_text);
         var normalizedScore = getScoreFromSimilarityScore(currentScore);
-        score += Math.round((normalizedScore / count) * 100)
+        score += Math.round((normalizedScore / counter) * 100)
         document.getElementById("en_text").value = null;
         $("#loading").hide();
         fetchContributionAndProgress();
