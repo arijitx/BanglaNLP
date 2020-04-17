@@ -34,12 +34,14 @@ def test():
 def put_im():
     uid = request.form.get('uid')
     convert_and_save(request.values['img'], fn=uid)
+    print("userid",uid)
     return "success"
 
     
 @app.route('/get_im',methods=['GET'])
 def get_im():
     uid = request.form.get('q')
+    print("getim- userid",uid)
     return '<html><head><meta property="og:image" content="https://bn-trans.herokuapp.com/static/'+uid+'.png"/></head><body><img src="'+uid+'.png"/></body></html>'
 
 @app.route('/')
