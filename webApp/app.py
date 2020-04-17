@@ -25,7 +25,6 @@ def convert_and_save(data_uri,fn='im.jpg'):
     print(path.exists("/app/static/"+fn))
 
 
-
 @app.route('/test')
 def test():
     return render_template('test.html')

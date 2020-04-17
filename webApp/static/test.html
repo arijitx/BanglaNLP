@@ -66,7 +66,7 @@
                     var fillVal = Math.min(Math.max(val / max, 0), 1);
                     if (direction === 'vertical') {
                         ctx.fillRect(250,100, width, (max-val)*height/max );
-                        ctx.strokeRect(248, 98, 32, 150);
+                        // ctx.strokeRect(248, 98, 32, 150);
 
                     } else {
                         ctx.fillRect(200, 100, fillVal * width, height);
@@ -90,16 +90,11 @@
 
                             base_image.onload = function(){
                                 ctx.drawImage(base_image, 40, 100,150,150);
-                                ctx.strokeRect(36, 96, 154, 154);
-                            }
-                            base_image.crossOrigin = "anonymous";
-                            base_image.src = "https://graph.facebook.com/" + response.id + "/picture?type=large";
-                            
-                            drawScrollbar();
-                            ctx.font = "30px Arial";
-                            ctx.strokeText(response.name.split(" ")[0]+"'s Bangla Score'", 10, 50);
-                            setTimeout(function(){
+                                // ctx.strokeRect(36, 96, 154, 154);
                                 var dataURL = canvas.toDataURL('image/jpeg');
+                                drawScrollbar();
+                                ctx.font = "30px Arial";
+                                ctx.fillText(response.name, 10, 50);
                                 console.log(dataURL);
                                 $.ajax({
                                     type: "POST", 
@@ -112,7 +107,12 @@
                                     href: 'https://bn-trans.herokuapp.com/get_im?q='+user,
                                 }, function(response){});
                                 });
-                            }, 2000);
+                            }
+                            base_image.crossOrigin = "anonymous";
+                            base_image.src = "https://graph.facebook.com/" + response.id + "/picture?type=large";
+                            
+                            
+                            
                             
                             
 
