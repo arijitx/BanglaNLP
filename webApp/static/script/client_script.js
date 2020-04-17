@@ -17,26 +17,26 @@ function initFBshare(){
     }
     bg.src = "static/template.png";
     function drawScrollbar () {
-        var width = 30,
-            height = 150,
+        var width = 145,
+            height = 15,
             max = 100,
             val = 80,
             direction = 'horizontal';
         
         // Draw the background
         ctx.fillStyle = '#000';
-        ctx.clearRect(250, 100, width, height);
-        ctx.fillRect(250, 100, width, height);
+        // ctx.clearRect(275, 153, width, height);
+        // ctx.fillRect(275, 153, width, height);
 
         // Draw the fill
         ctx.fillStyle = '#777';
         var fillVal = Math.min(Math.max(val / max, 0), 1);
         if (direction === 'vertical') {
-            ctx.fillRect(250,100, width, (max-val)*height/max );
+            ctx.fillRect(275, 153, width, (max-val)*height/max );
             // ctx.strokeRect(248, 98, 32, 150);
 
         } else {
-            ctx.fillRect(250, 100, (max-val) * width/max, height);
+            ctx.fillRect(275, 153, (max-val) * width/max, height);
         }
     }
     
@@ -56,12 +56,12 @@ function initFBshare(){
                 
                 user = response.id;
                 base_image.onload = function(){
-                    ctx.drawImage(base_image, 40, 100,150,150);
+                    ctx.drawImage(base_image, 40, 66,160,154);
                     // ctx.strokeRect(36, 96, 154, 154);
                     
                     
-                    ctx.font = "30px Arial";
-                    ctx.fillText(response.name, 10, 50);
+                    ctx.font = "24px Arial";
+                    ctx.fillText(response.name, 42, 40);
                     drawScrollbar();
                     var dataURL = canvas.toDataURL('image/jpeg');
                     console.log(dataURL);
