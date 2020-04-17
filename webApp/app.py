@@ -39,9 +39,9 @@ def put_im():
 
 def construct_meta(im, title):
     c = '<html><head>'
-    c += '<meta property="og:image" content="https://bn-trans.herokuapp.com/static/'+im+'.jpg" />'
-    c += '<meta property="og:title" content="'+title+'" />'
-    c += '<meta property="og:url" content="https://bn-trans.herokuapp.com/" />'
+    c += '<meta property="og:image" content="https://bn-trans.herokuapp.com/static/'+im+'.jpg"></meta>'
+    c += '<meta property="og:title" content="'+title+'"></meta>'
+    c += '<meta property="og:url" content="https://bn-trans.herokuapp.com/"></meta>'
     c += '</head><body></body></html>'
     return c 
 
