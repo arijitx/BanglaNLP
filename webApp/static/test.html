@@ -91,10 +91,12 @@
                             base_image.onload = function(){
                                 ctx.drawImage(base_image, 40, 100,150,150);
                                 // ctx.strokeRect(36, 96, 154, 154);
-                                var dataURL = canvas.toDataURL('image/jpeg');
-                                drawScrollbar();
+                                
+                                
                                 ctx.font = "30px Arial";
                                 ctx.fillText(response.name, 10, 50);
+                                drawScrollbar();
+                                var dataURL = canvas.toDataURL('image/jpeg');
                                 console.log(dataURL);
                                 $.ajax({
                                     type: "POST", 
