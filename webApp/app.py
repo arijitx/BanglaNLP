@@ -37,12 +37,19 @@ def put_im():
     print("userid",uid)
     return "success"
 
-    
+def construct_meta(im, title):
+    c = '<html><head>'
+    c += '<meta property="og:image" content="https://bn-trans.herokuapp.com/static/'+im+'.png"/>'
+    c += '<meta property="og:title" content="'+title+'"/>'
+    c += '<meta property="og:url" content="https://bn-trans.herokuapp.com/"/>'
+    c += '</head><body></body></html>'
+    return c 
+
 @app.route('/get_im',methods=['GET'])
 def get_im():
     uid = request.args.get('q')
     print("getim- userid",uid)
-    return '<html><head><meta property="og:image" content="https://bn-trans.herokuapp.com/static/'+uid+'.png"/></head><body><img src="'+uid+'.png"/></body></html>'
+    return construct_meta(im,"Check your Bangla skill!")
 
 @app.route('/')
 def home():
