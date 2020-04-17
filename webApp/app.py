@@ -49,7 +49,7 @@ def construct_meta(im, title):
 def get_im():
     uid = request.args.get('q')
     print("getim- userid",uid)
-    return construct_meta(im,"Check your Bangla skill!")
+    return construct_meta(uid,"Check your Bangla skill!")
 
 @app.route('/')
 def home():
