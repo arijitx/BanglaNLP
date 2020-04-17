@@ -56,13 +56,16 @@ function initFBshare(){
                 
                 user = response.id;
                 base_image.onload = function(){
-                    ctx.drawImage(base_image, 40, 66,160,154);
+                    ctx.drawImage(base_image, 42, 66,160,154);
                     // ctx.strokeRect(36, 96, 154, 154);
                     
                     
                     ctx.font = "24px Arial";
                     ctx.fillText(response.name, 42, 40);
-                    drawScrollbar();
+                    ctx.save()
+                    ctx.fillStyle = '#f11';
+                    ctx.fillText("80",313,175);
+                    ctx.rotate(-0.05*Math.PI);
                     var dataURL = canvas.toDataURL('image/jpeg');
                     console.log(dataURL);
                     $.ajax({
