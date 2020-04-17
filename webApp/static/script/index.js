@@ -141,12 +141,6 @@ function getScoreFromSimilarityScore(simscore){
         return Math.random() * (0.8 - 0.4) + 0.4;
 }
 
-function similarity_score(a, b) {
-    var distance = levenshteinenator(a, b);
-    var similarity = 1 - (distance * 1.0) / Math.max(a.length, b.length);
-    return similarity;
-}
-
 function onClickHandler() {
     // const client = stitch.Stitch.initializeDefaultAppClient('bntransserve-fhipn');
     if(!isEmpty($('#en_text').val()) && !isEmpty($('#bn_text').text())) {
@@ -161,7 +155,7 @@ function onClickHandler() {
           db.collection('bn').updateOne({owner_id: client.auth.user.id}, {$push:{ words :{en: user_input,bn: bn_text}}}, {upsert:true})  
       ).then(function(){
         counter += 1;
-        var currentScore = similarity_score(avro_output, bn_text);
+        var currentScore = levenshteinenator(avro_output, bn_text);
         var normalizedScore = getScoreFromSimilarityScore(currentScore);
         score += Math.round((normalizedScore / count) * 100)
         document.getElementById("en_text").value = null;
