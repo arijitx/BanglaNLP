@@ -21,7 +21,7 @@ function initFBshare(){
             height = 150,
             max = 100,
             val = 80,
-            direction = 'vertical';
+            direction = 'horizontal';
         
         // Draw the background
         ctx.fillStyle = '#000';
@@ -36,7 +36,7 @@ function initFBshare(){
             // ctx.strokeRect(248, 98, 32, 150);
 
         } else {
-            ctx.fillRect(200, 100, fillVal * width, height);
+            ctx.fillRect(250, 100, (max-val) * width/max, height);
         }
     }
     
