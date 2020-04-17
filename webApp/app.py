@@ -24,7 +24,7 @@ def convert_and_save(data_uri,fn='im.png'):
         f.write(data)
     print(path.exists("/app/static/"+fn))
 
-img = ['none']
+
 
 @app.route('/test')
 def test():
@@ -32,14 +32,15 @@ def test():
 
 @app.route('/put_im',methods=['GET', 'POST'])
 def put_im():
-    img.append(request.values['img'])
-    convert_and_save(img[-1])
+    uid = request.form.get('uid')
+    convert_and_save(request.values['img'], fn=uid)
     return "success"
 
     
-@app.route('/get_im')
+@app.route('/get_im'methods=['GET'])
 def get_im():
-    return '<html><head><meta property="og:image" content="https://bn-trans.herokuapp.com/static/im.png"/></head><body><img src="'+str(img[-1])+'"/></body></html>'
+    uid = request.form.get('q')
+    return '<html><head><meta property="og:image" content="https://bn-trans.herokuapp.com/static/'+uid+'.png"/></head><body><img src="'+uid+'.png"/></body></html>'
 
 @app.route('/')
 def home():

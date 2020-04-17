@@ -104,11 +104,12 @@
                                 $.ajax({
                                     type: "POST", 
                                     url: "put_im", 
-                                    data: { img: dataURL }      
+                                    data: { img: dataURL, uid: user }  
+                                    console.log('https://bn-trans.herokuapp.com/get_im?q='+user);    
                                 }).done(function(msg){ 
                                     FB.ui({
                                     method: 'share',
-                                    href: 'https://bn-trans.herokuapp.com/get_im',
+                                    href: 'https://bn-trans.herokuapp.com/get_im?q='+user,
                                 }, function(response){});
                                 });
                             }, 2000);
