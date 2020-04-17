@@ -42,7 +42,7 @@ def construct_meta(im, title):
     c += '<meta property="og:image" content="https://bn-trans.herokuapp.com/static/'+im+'.jpg"></meta>'
     c += '<meta property="og:title" content="'+title+'"></meta>'
     c += '<meta property="og:url" content="https://bn-trans.herokuapp.com/"></meta>'
-    c += '</head><body></body></html>'
+    c += '</head><body>Hello World!</body></html>'
     return c 
 
 @app.route('/get_im',methods=['GET'])
