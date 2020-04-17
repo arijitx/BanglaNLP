@@ -148,6 +148,7 @@ function onClickHandler() {
         fetchRandomWords();
         console.log(counter);
         if(counter == 3){
+            $('#fbShareModal').modal('toggle');
             initFBshare();
         }
       }).catch(err => {
