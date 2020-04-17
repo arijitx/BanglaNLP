@@ -65,7 +65,7 @@ function initFBshare(){
                     ctx.fillText(response.name, 42, 40);
                     ctx.save()
                     ctx.fillStyle = '#f11';
-                    ctx.fillText("80",313,175);
+                    ctx.fillText($("#score-area").text(),313,175);
                     ctx.rotate(-0.05*Math.PI);
                     var dataURL = canvas.toDataURL('image/jpeg');
                     console.log(dataURL);
