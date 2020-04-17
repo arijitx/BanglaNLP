@@ -37,7 +37,7 @@ def put_im():
     return "success"
 
     
-@app.route('/get_im'methods=['GET'])
+@app.route('/get_im',methods=['GET'])
 def get_im():
     uid = request.form.get('q')
     return '<html><head><meta property="og:image" content="https://bn-trans.herokuapp.com/static/'+uid+'.png"/></head><body><img src="'+uid+'.png"/></body></html>'

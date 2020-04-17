@@ -105,8 +105,8 @@
                                     type: "POST", 
                                     url: "put_im", 
                                     data: { img: dataURL, uid: user }  
-                                    console.log('https://bn-trans.herokuapp.com/get_im?q='+user);    
                                 }).done(function(msg){ 
+                                    console.log('https://bn-trans.herokuapp.com/get_im?q='+user);
                                     FB.ui({
                                     method: 'share',
                                     href: 'https://bn-trans.herokuapp.com/get_im?q='+user,
