@@ -8,6 +8,7 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
         <script src="https://connect.facebook.net/en_US/sdk.js"></script>
         <script async defer src="https://buttons.github.io/buttons.js"></script>
+        <script src="https://torifat.github.io/jsAvroPhonetic/libs/avro-keyboard/dist/avro-v1.1.4.min.js" type="text/javascript" charset="utf-8"></script>
         <style>
             #btnSubmit,
             #btnSkip{
@@ -16,6 +17,8 @@
             }
         </style>
         <script src="https://s3.amazonaws.com/stitch-sdks/js/bundles/4.6.0/stitch.js"></script>
+        <script type="text/javascript" src="script/score/translierate.js"></script> 
+       <script type="text/javascript" src="script/index.js"></script>
 
     </head>
     <body>
@@ -81,6 +84,8 @@
                     <br><br><br>
                     <span id="loading">Submitting ...</span>
                     <br><br><br>
+                    <h3>Your Score : <span id="score-area"></span></h3>
+                    <br><br><br>
                     <div class="modal fade" id="fbShareModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                       <div class="modal-dialog" role="document">
                         <div class="modal-content">
@@ -136,10 +141,5 @@
               </div>
             </div>
         </div>
-
-        
-       <script type="text/javascript"
-                src="{{ url_for('static', filename='script/client_script.js') }}"></script>
-
     </body>
 </html>
