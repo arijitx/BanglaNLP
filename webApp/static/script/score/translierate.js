@@ -52,6 +52,13 @@ var levenshteinenator = (function () {
 		return z;
     }
 
-	return levenshteinenator;
+    function similarity_score(a, b) {
+        var distance = levenshteinenator(a, b);
+        var similarity = 1 - (distance * 1.0) / Math.max(a.length, b.length);
+        return similarity;
+    }
+    
+
+	return similarity_score;
 
 }());
