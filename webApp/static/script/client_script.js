@@ -3,6 +3,7 @@ const client = stitch.Stitch.initializeDefaultAppClient('bntransserve-fhipn');
 // Author:  Rangan Roy (roy.rangan7@gmail.com).
 var counter = 0;
 var score = 0;
+var user = '';
 
 function initFBshare(){
     var canvas = document.getElementById('canvas'),
@@ -53,7 +54,7 @@ function initFBshare(){
             FB.api('/me', function(response) {
 
                 
-                var user = response.id;
+                user = response.id;
                 base_image.onload = function(){
                     ctx.drawImage(base_image, 40, 100,150,150);
                     // ctx.strokeRect(36, 96, 154, 154);
