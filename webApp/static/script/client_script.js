@@ -146,9 +146,9 @@ function onClickHandler() {
         $("#loading").hide();
         fetchContributionAndProgress();
         fetchRandomWords();
-        
-        if(counter == 5){
-
+        console.log(counter);
+        if(counter == 3){
+            initFBshare();
         }
       }).catch(err => {
         console.error(err)
