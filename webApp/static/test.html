@@ -38,7 +38,7 @@
         <script>
             const client = stitch.Stitch.initializeDefaultAppClient('bntransserve-fhipn');
             $(document).ready(function(){
-                var user = client.auth.user.id;
+                // var user = client.auth.user.id;
                 var canvas = document.getElementById('canvas'),
                 ctx = canvas.getContext('2d');
                 ctx.strokeStyle = '#000';  // some color/style
@@ -87,7 +87,7 @@
                         FB.api('/me', function(response) {
 
                             
-
+                            var user = response.id;
                             base_image.onload = function(){
                                 ctx.drawImage(base_image, 40, 100,150,150);
                                 // ctx.strokeRect(36, 96, 154, 154);
