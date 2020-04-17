@@ -3,6 +3,7 @@ const client = stitch.Stitch.initializeDefaultAppClient('bntransserve-fhipn');
 // Author:  Rangan Roy (roy.rangan7@gmail.com).
 var counter = 0;
 var score = 0;
+
 function initFBshare(){
     var canvas = document.getElementById('canvas'),
     ctx = canvas.getContext('2d');
@@ -68,11 +69,7 @@ function initFBshare(){
                         url: "put_im", 
                         data: { img: dataURL, uid: user }  
                     }).done(function(msg){ 
-                        console.log('https://bn-trans.herokuapp.com/get_im?q='+user);
-                        FB.ui({
-                        method: 'share',
-                        href: 'https://bn-trans.herokuapp.com/get_im?q='+user,
-                    }, function(response){});
+                        
                     });
                 }
                 base_image.crossOrigin = "anonymous";
@@ -173,4 +170,12 @@ $("#en_text").keydown(function (event) {
     } else if (event.keyCode === 13) {
         onClickHandler();
     }
+});
+
+$("#btnFBShare").click(function(){
+    console.log('https://bn-trans.herokuapp.com/get_im?q='+user);
+        FB.ui({
+        method: 'share',
+        href: 'https://bn-trans.herokuapp.com/get_im?q='+user,
+    }, function(response){});
 });
