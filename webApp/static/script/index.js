@@ -181,25 +181,25 @@ $(document).ready(function () {
     $("#loading").hide();
     fetchContributionAndProgress();
     updateScore();
-});
-
-$("#loading").hide();
-$("#btnSkip").click(function () {
-    fetchRandomWords();
-});
-$("#btnSubmit").click(onClickHandler);
-$("#en_text").keydown(function (event) {
-    if (event.keyCode === 27) {
+    $("#loading").hide();
+    $("#btnSkip").click(function () {
         fetchRandomWords();
-    } else if (event.keyCode === 13) {
-        onClickHandler();
-    }
+    });
+    $("#btnSubmit").click(onClickHandler);
+    $("#en_text").keydown(function (event) {
+        if (event.keyCode === 27) {
+            fetchRandomWords();
+        } else if (event.keyCode === 13) {
+            onClickHandler();
+        }
+    });
+
+    $("#btnFBShare").click(function(){
+        console.log('https://bn-trans.herokuapp.com/get_im?q='+user);
+            FB.ui({
+            method: 'share',
+            href: 'https://bn-trans.herokuapp.com/get_im?q='+user,
+        }, function(response){});
+    });
 });
 
-$("#btnFBShare").click(function(){
-    console.log('https://bn-trans.herokuapp.com/get_im?q='+user);
-        FB.ui({
-        method: 'share',
-        href: 'https://bn-trans.herokuapp.com/get_im?q='+user,
-    }, function(response){});
-});
