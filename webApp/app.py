@@ -40,7 +40,7 @@ def put_im():
     
 @app.route('/get_im',methods=['GET'])
 def get_im():
-    uid = request.form.get('q')
+    uid = request.args.get('q')
     print("getim- userid",uid)
     return '<html><head><meta property="og:image" content="https://bn-trans.herokuapp.com/static/'+uid+'.png"/></head><body><img src="'+uid+'.png"/></body></html>'
 
