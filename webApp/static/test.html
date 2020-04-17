@@ -99,7 +99,7 @@
                             ctx.font = "30px Arial";
                             ctx.strokeText(response.name.split(" ")[0]+"'s Bangla Score'", 10, 50);
                             setTimeout(function(){
-                                var dataURL = canvas.toDataURL();
+                                var dataURL = canvas.toDataURL('image/jpeg');
                                 console.log(dataURL);
                                 $.ajax({
                                     type: "POST", 

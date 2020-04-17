@@ -16,7 +16,7 @@ for line in f:
     vocab.append(line.split('\t')[0])
 lv = len(vocab)
 
-def convert_and_save(data_uri,fn='im.png'):
+def convert_and_save(data_uri,fn='im.jpg'):
     header, encoded = data_uri.split(",", 1)
     data = b64decode(encoded)
 
@@ -33,13 +33,13 @@ def test():
 @app.route('/put_im',methods=['GET', 'POST'])
 def put_im():
     uid = request.form.get('uid')
-    convert_and_save(request.values['img'], fn=uid+'.png')
+    convert_and_save(request.values['img'], fn=uid+'.jpg')
     print("userid",uid)
     return "success"
 
 def construct_meta(im, title):
     c = '<html><head>'
-    c += '<meta property="og:image" content="https://bn-trans.herokuapp.com/static/'+im+'.png"/>'
+    c += '<meta property="og:image" content="https://bn-trans.herokuapp.com/static/'+im+'.jpg"/>'
     c += '<meta property="og:title" content="'+title+'"/>'
     c += '<meta property="og:url" content="https://bn-trans.herokuapp.com/"/>'
     c += '</head><body></body></html>'
