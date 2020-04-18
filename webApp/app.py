@@ -41,7 +41,7 @@ def construct_meta(im, title):
     c = '<html><head>'
     c += '<meta property="og:image" content="http://bn-trans.herokuapp.com/static/'+im+'.jpg"></meta>'
     c += '<meta property="og:title" content="'+title+'"></meta>'
-    c += '<meta property="og:image:width" content="500"/>
+    c += '<meta property="og:image:width" content="500"/>'
     c += '<meta property="og:image:height" content="280"/>'
     # c += '<meta property="og:url" content="http://bn-trans.herokuapp.com/"></meta>'
     c += '</head><body><script>window.location.href="https://bn-trans.herokuapp.com/"; </script></body></html>'
