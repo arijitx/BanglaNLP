@@ -30,11 +30,12 @@ function initFBshare(){
                 base_image.onload = function(){
                     ctx.drawImage(base_image, 42, 66,160,154);
                     ctx.font = "24px Arial";
+                    ctx.fillStyle = '#000';
                     ctx.fillText(response.name, 42, 40);
                     ctx.save()
                     ctx.fillStyle = '#f11';
                     ctx.fillText($("#score-area").text(),313,175);
-                    ctx.rotate(-0.05*Math.PI);
+                    // ctx.rotate(-0.05*Math.PI);
                     var dataURL = canvas.toDataURL('image/jpeg');
                     //console.log(dataURL);
                     user = user + Math.random().toString(36).slice(2);
