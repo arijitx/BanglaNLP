@@ -7,7 +7,7 @@ var nscore = 0;
 var user = '';
 var avro = OmicronLab.Avro.Phonetic;
 var fbresponse ;
-var max_c = 2;
+var max_c = 5;
 function initFBshare(){
     var canvas = document.getElementById('canvas'),
     ctx = canvas.getContext('2d');
