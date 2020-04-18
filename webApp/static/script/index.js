@@ -130,10 +130,10 @@ function updateScore() {
 }
 
 function getScoreFromSimilarityScore(simscore){
-    if (simscore >= 0.8)
-        return Math.random() * (1 - 0.8) + 0.8;
+    if (simscore >= 0.75)
+        return Math.random() * (1 - 0.85) + 0.85;
     else
-        return Math.random() * (0.8 - 0.5) + 0.5;
+        return Math.random() * (0.85 - 0.6) + 0.6;
 }
 
 function onClickHandler() {
