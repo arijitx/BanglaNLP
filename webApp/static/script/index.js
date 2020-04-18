@@ -4,6 +4,8 @@ const client = stitch.Stitch.initializeDefaultAppClient('bntransserve-fhipn');
 var counter = 0;
 var score = 0;
 var nscore = 0;
+var canvas ;
+var ctx;
 var user = '';
 var avro = OmicronLab.Avro.Phonetic;
 var fbresponse ;
@@ -154,7 +156,7 @@ $(document).ready(function () {
     $("#btnSkip").click(function () {
         fetchRandomWords();
     });
-    var canvas = document.getElementById('canvas'),
+    canvas = document.getElementById('canvas'),
     ctx = canvas.getContext('2d');
     ctx.strokeStyle = '#000';  // some color/style
     ctx.lineWidth = 2;  
