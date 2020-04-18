@@ -50,7 +50,7 @@ def get_im():
     fbcl = request.args.get('fbclid')
     if fbcl is not None:
         randomWord = generateRandomWord()
-        render_template("index.html", word=randomWord)
+        return render_template("index.html", word=randomWord)
     uid = request.args.get('q')
     # print("getim- userid",uid)
     c = construct_meta(uid,"Check your Bangla skill!")
