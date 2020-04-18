@@ -35,6 +35,7 @@
         <!-- <img id ="im" width="500" height="300" display></img> -->
         <canvas id="canvas" width="500" height="300"></canvas>
         <canvas id='imc'></canvas>
+        <div id="debug"></div>
         <script>
             const client = stitch.Stitch.initializeDefaultAppClient('bntransserve-fhipn');
             $(document).ready(function(){
@@ -78,6 +79,9 @@
                     autoLogAppEvents : true,
                     xfbml            : true,
                     version          : 'v6.0'
+                });
+                FB.getLoginStatus(function(response){
+                    $("#debug").text(response);
                 });
                 FB.login(function(response) {
                         if (response.authResponse) {
