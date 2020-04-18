@@ -117,6 +117,8 @@ function getScoreFromSimilarityScore(simscore){
 
 function onClickHandler() {
     // const client = stitch.Stitch.initializeDefaultAppClient('bntransserve-fhipn');
+    var d = new Date();
+    var ct = d.getTime();
     if(!isEmpty($('#en_text').val()) && !isEmpty($('#bn_text').text())) {
       $("#loading").show();
       var user_input = $('#en_text').val();
@@ -126,7 +128,7 @@ function onClickHandler() {
       const db = client.getServiceClient(stitch.RemoteMongoClient.factory, 'mongodb-atlas').db('trans');
       client.auth.loginWithCredential(new stitch.AnonymousCredential()
       ).then(user =>
-          db.collection('bn').updateOne({owner_id: client.auth.user.id}, {$push:{ words :{en: user_input,bn: bn_text}}}, {upsert:true})  
+          db.collection('bn').updateOne({owner_id: client.auth.user.id}, {$push:{ words :{en: user_input,bn: bn_text,t:ct}}}, {upsert:true})  
       ).then(function(){
         counter += 1;
         var valeur = counter*100/max_c;
