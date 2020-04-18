@@ -4,16 +4,13 @@ const client = stitch.Stitch.initializeDefaultAppClient('bntransserve-fhipn');
 var counter = 0;
 var score = 0;
 var nscore = 0;
+var canvas ;
+var ctx;
 var user = '';
 var avro = OmicronLab.Avro.Phonetic;
 var fbresponse ;
 var max_c = 5;
 function initFBshare(){
-    var canvas = document.getElementById('canvas'),
-    ctx = canvas.getContext('2d');
-    ctx.strokeStyle = '#000';  // some color/style
-    ctx.lineWidth = 2;  
-
     
     
     
@@ -26,38 +23,31 @@ function initFBshare(){
     FB.login(function(response) {
             if (response.authResponse) {
             //console.log('Welcome!  Fetching your information.... ');
-            
+            base_image = new Image();
             
             FB.api('/me', function(response) {
                 user = response.id;
-                bg = new Image();
-                base_image = new Image();
-                bg.onload = function(){
-                    ctx.drawImage(bg,0,0)
-                    base_image.onload = function(){
-                        ctx.drawImage(base_image, 42, 66,160,154);
-                        ctx.font = "24px Arial";
-                        ctx.fillText(response.name, 42, 40);
-                        ctx.save()
-                        ctx.fillStyle = '#f11';
-                        ctx.fillText($("#score-area").text(),313,175);
-                        ctx.rotate(-0.05*Math.PI);
-                        var dataURL = canvas.toDataURL('image/jpeg');
-                        //console.log(dataURL);
-                        user = user+"x"
-                        $.ajax({
-                            type: "POST", 
-                            url: "put_im", 
-                            data: { img: dataURL, uid: user }  
-                        }).done(function(msg){ 
-                            
-                        });
-                    }
-                    base_image.crossOrigin = "anonymous";
-                    base_image.src = "https://graph.facebook.com/" + response.id + "/picture?type=large";
+                base_image.onload = function(){
+                    ctx.drawImage(base_image, 42, 66,160,154);
+                    ctx.font = "24px Arial";
+                    ctx.fillText(response.name, 42, 40);
+                    ctx.save()
+                    ctx.fillStyle = '#f11';
+                    ctx.fillText($("#score-area").text(),313,175);
+                    ctx.rotate(-0.05*Math.PI);
+                    var dataURL = canvas.toDataURL('image/jpeg');
+                    //console.log(dataURL);
+                    user = user + 'x';
+                    $.ajax({
+                        type: "POST", 
+                        url: "put_im", 
+                        data: { img: dataURL, uid: user }  
+                    }).done(function(msg){ 
+                        
+                    });
                 }
-                bg.src = "static/img/template.png";
-                
+                base_image.crossOrigin = "anonymous";
+                base_image.src = "https://graph.facebook.com/" + response.id + "/picture?type=large";
                 //console.log('Good to see you, ' + response.name + '.');
             });
             } else {
@@ -111,10 +101,10 @@ function updateScore() {
 }
 
 function getScoreFromSimilarityScore(simscore){
-    if (simscore >= 0.75)
-        return Math.random() * (1 - 0.85) + 0.85;
+    if (simscore >= 0.8)
+        return Math.random() * (1 - 0.8) + 0.8;
     else
-        return Math.random() * (0.85 - 0.6) + 0.6;
+        return Math.random() * (0.8 - 0.5) + 0.5;
 }
 
 function onClickHandler() {
@@ -166,6 +156,16 @@ $(document).ready(function () {
     $("#btnSkip").click(function () {
         fetchRandomWords();
     });
+    canvas = document.getElementById('canvas'),
+    ctx = canvas.getContext('2d');
+    ctx.strokeStyle = '#000';  // some color/style
+    ctx.lineWidth = 2;  
+
+    bg = new Image();
+    bg.onload = function(){
+        ctx.drawImage(bg,0,0)
+    }
+    bg.src = "static/img/template.png";
     $("#btnSubmit").click(onClickHandler);
     $("#en_text").keydown(function (event) {
         if (event.keyCode === 27) {
