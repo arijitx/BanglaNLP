@@ -3,6 +3,7 @@ const client = stitch.Stitch.initializeDefaultAppClient('bntransserve-fhipn');
 // Author:  Rangan Roy (roy.rangan7@gmail.com).
 var counter = 0;
 var score = 0;
+var nscore = 0;
 var user = '';
 var avro = OmicronLab.Avro.Phonetic;
 var fbresponse ;
@@ -131,7 +132,7 @@ function getScoreFromSimilarityScore(simscore){
     if (simscore >= 0.8)
         return Math.random() * (1 - 0.8) + 0.8;
     else
-        return Math.random() * (0.8 - 0.4) + 0.4;
+        return Math.random() * (0.8 - 0.5) + 0.5;
 }
 
 function onClickHandler() {
@@ -152,7 +153,10 @@ function onClickHandler() {
         $('#pb').css('width', valeur+'%');
         var currentScore = levenshteinenator(avro_output, bn_text);
         var normalizedScore = getScoreFromSimilarityScore(currentScore);
-        score += Math.round((normalizedScore / counter) * 100)
+        nscore += normalizedScore
+        score = Math.round((nscore / counter) * 100)
+        console.log("Counter : " + counter + " Present Score : " + currentScore + " Normalized Score : " + normalizedScore + " Total Score : " + score);
+        updateScore();
         document.getElementById("en_text").value = null;
         $("#loading").hide();
         fetchContributionAndProgress();
@@ -162,6 +166,7 @@ function onClickHandler() {
         if(counter == max_c){
             $("#pb").hide();
             $("#btnCaclScore").show();
+
         }
       }).catch(err => {
         console.error(err)
@@ -190,7 +195,7 @@ $(document).ready(function () {
         $('#fbShareModal').modal('toggle');
         initFBshare();
     });
-    
+
     $("#btnFBShare").click(function(){
         console.log('https://bn-trans.herokuapp.com/get_im?q='+user);
             FB.ui({
