@@ -14,34 +14,8 @@ function initFBshare(){
     ctx.strokeStyle = '#000';  // some color/style
     ctx.lineWidth = 2;  
 
-    bg = new Image();
-    bg.onload = function(){
-        ctx.drawImage(bg,0,0)
-    }
-    bg.src = "static/img/template.png";
-    function drawScrollbar () {
-        var width = 145,
-            height = 15,
-            max = 100,
-            val = 80,
-            direction = 'horizontal';
-        
-        // Draw the background
-        ctx.fillStyle = '#000';
-        // ctx.clearRect(275, 153, width, height);
-        // ctx.fillRect(275, 153, width, height);
-
-        // Draw the fill
-        ctx.fillStyle = '#777';
-        var fillVal = Math.min(Math.max(val / max, 0), 1);
-        if (direction === 'vertical') {
-            ctx.fillRect(275, 153, width, (max-val)*height/max );
-            // ctx.strokeRect(248, 98, 32, 150);
-
-        } else {
-            ctx.fillRect(275, 153, (max-val) * width/max, height);
-        }
-    }
+    
+    
     
     FB.init({
         appId            : '531999777464234',
@@ -52,31 +26,38 @@ function initFBshare(){
     FB.login(function(response) {
             if (response.authResponse) {
             //console.log('Welcome!  Fetching your information.... ');
-            base_image = new Image();
+            
             
             FB.api('/me', function(response) {
                 user = response.id;
-                base_image.onload = function(){
-                    ctx.drawImage(base_image, 42, 66,160,154);
-                    ctx.font = "24px Arial";
-                    ctx.fillText(response.name, 42, 40);
-                    ctx.save()
-                    ctx.fillStyle = '#f11';
-                    ctx.fillText($("#score-area").text(),313,175);
-                    ctx.rotate(-0.05*Math.PI);
-                    var dataURL = canvas.toDataURL('image/jpeg');
-                    //console.log(dataURL);
-                    user = user+"x"
-                    $.ajax({
-                        type: "POST", 
-                        url: "put_im", 
-                        data: { img: dataURL, uid: user }  
-                    }).done(function(msg){ 
-                        
-                    });
+                bg = new Image();
+                base_image = new Image();
+                bg.onload = function(){
+                    ctx.drawImage(bg,0,0)
+                    base_image.onload = function(){
+                        ctx.drawImage(base_image, 42, 66,160,154);
+                        ctx.font = "24px Arial";
+                        ctx.fillText(response.name, 42, 40);
+                        ctx.save()
+                        ctx.fillStyle = '#f11';
+                        ctx.fillText($("#score-area").text(),313,175);
+                        ctx.rotate(-0.05*Math.PI);
+                        var dataURL = canvas.toDataURL('image/jpeg');
+                        //console.log(dataURL);
+                        user = user+"x"
+                        $.ajax({
+                            type: "POST", 
+                            url: "put_im", 
+                            data: { img: dataURL, uid: user }  
+                        }).done(function(msg){ 
+                            
+                        });
+                    }
+                    base_image.crossOrigin = "anonymous";
+                    base_image.src = "https://graph.facebook.com/" + response.id + "/picture?type=large";
                 }
-                base_image.crossOrigin = "anonymous";
-                base_image.src = "https://graph.facebook.com/" + response.id + "/picture?type=large";
+                bg.src = "static/img/template.png";
+                
                 //console.log('Good to see you, ' + response.name + '.');
             });
             } else {
