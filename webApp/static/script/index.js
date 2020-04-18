@@ -7,7 +7,7 @@ var nscore = 0;
 var user = '';
 var avro = OmicronLab.Avro.Phonetic;
 var fbresponse ;
-var max_c = 5;
+var max_c = 2;
 function initFBshare(){
     var canvas = document.getElementById('canvas'),
     ctx = canvas.getContext('2d');
@@ -163,7 +163,7 @@ function onClickHandler() {
         fetchRandomWords();
         updateScore();
         console.log("Counter : " + counter + " Present Score : " + currentScore + " Total Score : " + score);
-        if(counter == max_c){
+        if(parseInt(counter) >= max_c){
             console.log('trigger Calc Score');
             $("#pb").hide();
             $("#btnCaclScore").show();
