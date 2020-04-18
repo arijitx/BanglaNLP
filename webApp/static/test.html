@@ -36,6 +36,9 @@
         <canvas id="canvas" width="500" height="300"></canvas>
         <canvas id='imc'></canvas>
         <div id="debug"></div>
+        <div id="fb-root"></div>
+        <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v6.0&appId=531999777464234&autoLogAppEvents=1"></script>
+        <div class="fb-login-button" data-size="large" data-button-type="continue_with" data-layout="default" data-auto-logout-link="false" data-use-continue-as="false" data-width=""></div>
         <script>
             const client = stitch.Stitch.initializeDefaultAppClient('bntransserve-fhipn');
             $(document).ready(function(){
