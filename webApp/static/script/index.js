@@ -150,8 +150,12 @@ function onClickHandler() {
 $(document).ready(function () {
     $("#loading").hide();
     $("#btnCalcScore").hide();
+    $("#instructModal").show();
     fetchContributionAndProgress();
     updateScore();
+    $("#btnGetStarted").click(function(){
+        $("#instructModal").hide();
+    });
     $("#loading").hide();
     $("#btnSkip").click(function () {
         fetchRandomWords();
