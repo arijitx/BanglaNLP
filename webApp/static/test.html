@@ -83,52 +83,52 @@
                 FB.getLoginStatus(function(response){
                     $("#debug").text(response);
                 });
-                FB.login(function(response) {
-                        if (response.authResponse) {
-                        console.log('Welcome!  Fetching your information.... ');
-                        base_image = new Image();
+            //     FB.login(function(response) {
+            //             if (response.authResponse) {
+            //             console.log('Welcome!  Fetching your information.... ');
+            //             base_image = new Image();
                         
-                        FB.api('/me', function(response) {
+            //             FB.api('/me', function(response) {
 
                             
-                            var user = response.id;
-                            base_image.onload = function(){
-                                ctx.drawImage(base_image, 40, 100,150,150);
-                                // ctx.strokeRect(36, 96, 154, 154);
+            //                 var user = response.id;
+            //                 base_image.onload = function(){
+            //                     ctx.drawImage(base_image, 40, 100,150,150);
+            //                     // ctx.strokeRect(36, 96, 154, 154);
                                 
                                 
-                                ctx.font = "30px Arial";
-                                ctx.fillText(response.name, 10, 50);
-                                drawScrollbar();
-                                var dataURL = canvas.toDataURL('image/jpeg');
-                                console.log(dataURL);
-                                $.ajax({
-                                    type: "POST", 
-                                    url: "put_im", 
-                                    data: { img: dataURL, uid: user }  
-                                }).done(function(msg){ 
-                                    console.log('https://bn-trans.herokuapp.com/get_im?q='+user);
-                                    FB.ui({
-                                    method: 'share',
-                                    href: 'https://bn-trans.herokuapp.com/get_im?q='+user,
-                                }, function(response){});
-                                });
-                            }
-                            base_image.crossOrigin = "anonymous";
-                            base_image.src = "https://graph.facebook.com/" + response.id + "/picture?type=large";
+            //                     ctx.font = "30px Arial";
+            //                     ctx.fillText(response.name, 10, 50);
+            //                     drawScrollbar();
+            //                     var dataURL = canvas.toDataURL('image/jpeg');
+            //                     console.log(dataURL);
+            //                     $.ajax({
+            //                         type: "POST", 
+            //                         url: "put_im", 
+            //                         data: { img: dataURL, uid: user }  
+            //                     }).done(function(msg){ 
+            //                         console.log('https://bn-trans.herokuapp.com/get_im?q='+user);
+            //                         FB.ui({
+            //                         method: 'share',
+            //                         href: 'https://bn-trans.herokuapp.com/get_im?q='+user,
+            //                     }, function(response){});
+            //                     });
+            //                 }
+            //                 base_image.crossOrigin = "anonymous";
+            //                 base_image.src = "https://graph.facebook.com/" + response.id + "/picture?type=large";
                             
                             
                             
                             
                             
 
-                            console.log('Good to see you, ' + response.name + '.');
-                        });
-                        } else {
-                            console.log('User cancelled login or did not fully authorize.');
-                        }
+            //                 console.log('Good to see you, ' + response.name + '.');
+            //             });
+            //             } else {
+            //                 console.log('User cancelled login or did not fully authorize.');
+            //             }
                         
-                    });
+            //         });
             });
             
                                         
