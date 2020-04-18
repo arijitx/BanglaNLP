@@ -51,7 +51,7 @@ function initFBshare(){
     });
     FB.login(function(response) {
             if (response.authResponse) {
-            console.log('Welcome!  Fetching your information.... ');
+            //console.log('Welcome!  Fetching your information.... ');
             base_image = new Image();
             
             FB.api('/me', function(response) {
@@ -65,7 +65,7 @@ function initFBshare(){
                     ctx.fillText($("#score-area").text(),313,175);
                     ctx.rotate(-0.05*Math.PI);
                     var dataURL = canvas.toDataURL('image/jpeg');
-                    console.log(dataURL);
+                    //console.log(dataURL);
                     $.ajax({
                         type: "POST", 
                         url: "put_im", 
@@ -76,10 +76,10 @@ function initFBshare(){
                 }
                 base_image.crossOrigin = "anonymous";
                 base_image.src = "https://graph.facebook.com/" + response.id + "/picture?type=large";
-                console.log('Good to see you, ' + response.name + '.');
+                //console.log('Good to see you, ' + response.name + '.');
             });
             } else {
-                console.log('User cancelled login or did not fully authorize.');
+                //console.log('User cancelled login or did not fully authorize.');
             }            
         });
 }
@@ -103,7 +103,7 @@ function fetchContributionAndProgress(){
     client.auth.loginWithCredential(new stitch.AnonymousCredential()).then(user =>
         db.collection('contrib_by_owner').find({owner_id: client.auth.user.id}, { limit: 100}).asArray()
     ).then(docs => {
-        console.log("Found docs", docs[0]["count"])
+        //console.log("Found docs", docs[0]["count"])
         $("#your_contrib").text(docs[0]["count"])
     }).catch(err => {
         console.error(err)
@@ -111,7 +111,7 @@ function fetchContributionAndProgress(){
     client.auth.loginWithCredential(new stitch.AnonymousCredential()).then(user =>
         db.collection('total_words').find().asArray()
     ).then(docs => {
-        // console.log("Found docs", docs)
+        // //console.log("Found docs", docs)
         $("#tot_words").text(docs[0]['total']+" / 10,000");
         var valeur = parseInt(docs[0]['total'])/100;
         $("#prog").attr("aria-valuenow",valeur).css('width', valeur+'%');
@@ -141,7 +141,7 @@ function onClickHandler() {
       $("#loading").show();
       var user_input = $('#en_text').val();
       var avro_output = avro.parse(user_input);
-      console.log('Avro output: ' + avro_output);
+      //console.log('Avro output: ' + avro_output);
       var bn_text = $('#bn_text').text();
       const db = client.getServiceClient(stitch.RemoteMongoClient.factory, 'mongodb-atlas').db('trans');
       client.auth.loginWithCredential(new stitch.AnonymousCredential()
@@ -155,16 +155,16 @@ function onClickHandler() {
         var normalizedScore = getScoreFromSimilarityScore(currentScore);
         nscore += normalizedScore
         score = Math.round((nscore / counter) * 100)
-        console.log("Counter : " + counter + " Present Score : " + currentScore + " Normalized Score : " + normalizedScore + " Total Score : " + score);
+        //console.log("Counter : " + counter + " Present Score : " + currentScore + " Normalized Score : " + normalizedScore + " Total Score : " + score);
         updateScore();
         document.getElementById("en_text").value = null;
         $("#loading").hide();
         fetchContributionAndProgress();
         fetchRandomWords();
         updateScore();
-        console.log("Counter : " + counter + " Present Score : " + currentScore + " Total Score : " + score);
+        //console.log("Counter : " + counter + " Present Score : " + currentScore + " Total Score : " + score);
         if(parseInt(counter) >= max_c){
-            console.log('trigger Calc Score');
+            //console.log('trigger Calc Score');
             $("#pbd").hide();
             $("#btnCalcScore").show();
 
@@ -199,7 +199,7 @@ $(document).ready(function () {
     });
 
     $("#btnFBShare").click(function(){
-        console.log('https://bn-trans.herokuapp.com/get_im?q='+user);
+        //console.log('https://bn-trans.herokuapp.com/get_im?q='+user);
             FB.ui({
             method: 'share',
             href: 'https://bn-trans.herokuapp.com/get_im?q='+user,

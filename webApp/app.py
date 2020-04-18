@@ -47,10 +47,14 @@ def construct_meta(im, title):
 
 @app.route('/get_im',methods=['GET'])
 def get_im():
+    fbcl = request.args.get('fbclid')
+    if fbcl is not None:
+        randomWord = generateRandomWord()
+        render_template("index.html", word=randomWord)
     uid = request.args.get('q')
-    print("getim- userid",uid)
+    # print("getim- userid",uid)
     c = construct_meta(uid,"Check your Bangla skill!")
-    print(c)
+    # print(c)
     return c
 
 @app.route('/')
