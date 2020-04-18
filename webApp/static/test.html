@@ -1,13 +1,13 @@
 <html>
     <head>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="https://connect.facebook.net/en_US/sdk.js"></script>
         <script src="https://s3.amazonaws.com/stitch-sdks/js/bundles/4.6.0/stitch.js"></script>
         <script>
             window.fbAsyncInit = function() {
               
             };
-          </script>
+          </script> -->
           
           <style>
 
@@ -40,52 +40,52 @@
         <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v6.0&appId=531999777464234&autoLogAppEvents=1"></script>
         <div class="fb-login-button" data-size="large" data-button-type="continue_with" data-layout="default" data-auto-logout-link="false" data-use-continue-as="false" data-width=""></div>
         <script>
-            const client = stitch.Stitch.initializeDefaultAppClient('bntransserve-fhipn');
-            $(document).ready(function(){
-                // var user = client.auth.user.id;
-                var canvas = document.getElementById('canvas'),
-                ctx = canvas.getContext('2d');
-                ctx.strokeStyle = '#000';  // some color/style
-                ctx.lineWidth = 2;  
+            // const client = stitch.Stitch.initializeDefaultAppClient('bntransserve-fhipn');
+            // $(document).ready(function(){
+            //     // var user = client.auth.user.id;
+            //     var canvas = document.getElementById('canvas'),
+            //     ctx = canvas.getContext('2d');
+            //     ctx.strokeStyle = '#000';  // some color/style
+            //     ctx.lineWidth = 2;  
 
-                bg = new Image();
-                bg.onload = function(){
-                    ctx.drawImage(bg,0,0)
-                }
-                bg.src = "static/template.png";
-                function drawScrollbar () {
-                    var width = 30,
-                        height = 150,
-                        max = 100,
-                        val = 80,
-                        direction = 'vertical';
+            //     bg = new Image();
+            //     bg.onload = function(){
+            //         ctx.drawImage(bg,0,0)
+            //     }
+            //     bg.src = "static/template.png";
+            //     function drawScrollbar () {
+            //         var width = 30,
+            //             height = 150,
+            //             max = 100,
+            //             val = 80,
+            //             direction = 'vertical';
                     
-                    // Draw the background
-                    ctx.fillStyle = '#000';
-                    ctx.clearRect(250, 100, width, height);
-                    ctx.fillRect(250, 100, width, height);
+            //         // Draw the background
+            //         ctx.fillStyle = '#000';
+            //         ctx.clearRect(250, 100, width, height);
+            //         ctx.fillRect(250, 100, width, height);
 
-                    // Draw the fill
-                    ctx.fillStyle = '#777';
-                    var fillVal = Math.min(Math.max(val / max, 0), 1);
-                    if (direction === 'vertical') {
-                        ctx.fillRect(250,100, width, (max-val)*height/max );
-                        // ctx.strokeRect(248, 98, 32, 150);
+            //         // Draw the fill
+            //         ctx.fillStyle = '#777';
+            //         var fillVal = Math.min(Math.max(val / max, 0), 1);
+            //         if (direction === 'vertical') {
+            //             ctx.fillRect(250,100, width, (max-val)*height/max );
+            //             // ctx.strokeRect(248, 98, 32, 150);
 
-                    } else {
-                        ctx.fillRect(200, 100, fillVal * width, height);
-                    }
-                }
+            //         } else {
+            //             ctx.fillRect(200, 100, fillVal * width, height);
+            //         }
+            //     }
                 
-                FB.init({
-                    appId            : '531999777464234',
-                    autoLogAppEvents : true,
-                    xfbml            : true,
-                    version          : 'v6.0'
-                });
-                FB.getLoginStatus(function(response){
-                    $("#debug").text(response);
-                });
+            //     FB.init({
+            //         appId            : '531999777464234',
+            //         autoLogAppEvents : true,
+            //         xfbml            : true,
+            //         version          : 'v6.0'
+            //     });
+            //     FB.getLoginStatus(function(response){
+            //         $("#debug").text(response);
+            //     });
             //     FB.login(function(response) {
             //             if (response.authResponse) {
             //             console.log('Welcome!  Fetching your information.... ');
@@ -132,7 +132,7 @@
             //             }
                         
             //         });
-            });
+            // });
             
                                         
             
