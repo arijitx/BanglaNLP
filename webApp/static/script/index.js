@@ -165,8 +165,8 @@ function onClickHandler() {
         console.log("Counter : " + counter + " Present Score : " + currentScore + " Total Score : " + score);
         if(parseInt(counter) >= max_c){
             console.log('trigger Calc Score');
-            $("#pb").hide();
-            $("#btnCaclScore").show();
+            $("#pbd").hide();
+            $("#btnCalcScore").show();
 
         }
       }).catch(err => {
