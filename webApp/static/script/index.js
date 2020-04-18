@@ -66,6 +66,7 @@ function initFBshare(){
                     ctx.rotate(-0.05*Math.PI);
                     var dataURL = canvas.toDataURL('image/jpeg');
                     //console.log(dataURL);
+                    user = user+"x"
                     $.ajax({
                         type: "POST", 
                         url: "put_im", 
