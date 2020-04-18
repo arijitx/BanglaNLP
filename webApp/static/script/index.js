@@ -164,6 +164,7 @@ function onClickHandler() {
         updateScore();
         console.log("Counter : " + counter + " Present Score : " + currentScore + " Total Score : " + score);
         if(counter == max_c){
+            console.log('trigger Calc Score');
             $("#pb").hide();
             $("#btnCaclScore").show();
 
