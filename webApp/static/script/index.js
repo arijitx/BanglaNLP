@@ -12,48 +12,94 @@ var fbresponse ;
 var max_c = 5;
 function initFBshare(){
     
-    
-    
     FB.init({
         appId            : '531999777464234',
         autoLogAppEvents : true,
         xfbml            : true,
         version          : 'v6.0'
     });
-    FB.login(function(response) {
-            if (response.authResponse) {
-            //console.log('Welcome!  Fetching your information.... ');
-            base_image = new Image();
-            
+    FB.getLoginStatus(function(response) {
+        if (response.status === 'connected') {
+            // base_image = new Image();
             FB.api('/me', function(response) {
+                ctx.clearRect(0, 0, 500, 280);
                 user = response.id;
                 base_image.onload = function(){
-                    ctx.drawImage(base_image, 42, 66,160,154);
-                    ctx.font = "24px Arial";
-                    ctx.fillText(response.name, 42, 40);
-                    ctx.save()
-                    ctx.fillStyle = '#f11';
-                    ctx.fillText($("#score-area").text(),313,175);
-                    ctx.rotate(-0.05*Math.PI);
-                    var dataURL = canvas.toDataURL('image/jpeg');
-                    //console.log(dataURL);
-                    user = user + 'x';
-                    $.ajax({
-                        type: "POST", 
-                        url: "put_im", 
-                        data: { img: dataURL, uid: user }  
-                    }).done(function(msg){ 
-                        
-                    });
+                    bg = new Image();
+                    bg.onload = function(){
+                        ctx.drawImage(bg,0,0);
+                        ctx.drawImage(base_image, 42, 66,160,154);
+                        ctx.font = "24px Arial";
+                        ctx.fillStyle = '#000';
+                        ctx.fillText(response.name, 42, 40);
+                        ctx.save()
+                        ctx.fillStyle = '#f11';
+                        ctx.fillText($("#score-area").text(),313,175);
+                        // ctx.rotate(-0.05*Math.PI);
+                        var dataURL = canvas.toDataURL('image/jpeg');
+                        //console.log(dataURL);
+                        user = user + Math.random().toString(36).slice(2);
+                        $.ajax({
+                            type: "POST", 
+                            url: "put_im", 
+                            data: { img: dataURL, uid: user }  
+                        }).done(function(msg){ 
+                            
+                        });
+                    }
+                    bg.src = "static/img/template.png";
+                    
                 }
                 base_image.crossOrigin = "anonymous";
                 base_image.src = "https://graph.facebook.com/" + response.id + "/picture?type=large";
                 //console.log('Good to see you, ' + response.name + '.');
             });
-            } else {
-                //console.log('User cancelled login or did not fully authorize.');
-            }            
-        });
+        }else{
+
+        FB.login(function(response) {
+                if (response.authResponse) {
+                //console.log('Welcome!  Fetching your information.... ');
+                
+                
+                FB.api('/me', function(response) {
+                    ctx.clearRect(0, 0, 500, 280);
+                    user = response.id;
+                    base_image.onload = function(){
+                        bg = new Image();
+                        bg.onload = function(){
+                            ctx.drawImage(bg,0,0);
+                            ctx.drawImage(base_image, 42, 66,160,154);
+                            ctx.font = "24px Arial";
+                            ctx.fillStyle = '#000';
+                            ctx.fillText(response.name, 42, 40);
+                            ctx.save()
+                            ctx.fillStyle = '#f11';
+                            ctx.fillText($("#score-area").text(),313,175);
+                            // ctx.rotate(-0.05*Math.PI);
+                            var dataURL = canvas.toDataURL('image/jpeg');
+                            //console.log(dataURL);
+                            user = user + Math.random().toString(36).slice(2);
+                            $.ajax({
+                                type: "POST", 
+                                url: "put_im", 
+                                data: { img: dataURL, uid: user }  
+                            }).done(function(msg){ 
+                                
+                            });
+                        }
+                        bg.src = "static/img/template.png";
+                        
+                    }
+                    base_image.crossOrigin = "anonymous";
+                    base_image.src = "https://graph.facebook.com/" + response.id + "/picture?type=large";
+                    //console.log('Good to see you, ' + response.name + '.');
+                });
+                } else {
+                    //console.log('User cancelled login or did not fully authorize.');
+                }            
+            });
+        }
+    });
 }
 
 function fetchRandomWords(){
@@ -101,14 +147,16 @@ function updateScore() {
 }
 
 function getScoreFromSimilarityScore(simscore){
-    if (simscore >= 0.8)
-        return Math.random() * (1 - 0.8) + 0.8;
+    if (simscore >= 0.7)
+        return Math.random() * (1 - 0.85) + 0.85;
     else
-        return Math.random() * (0.8 - 0.5) + 0.5;
+        return Math.random() * (0.85 - 0.6) + 0.6;
 }
 
 function onClickHandler() {
     // const client = stitch.Stitch.initializeDefaultAppClient('bntransserve-fhipn');
+    var d = new Date();
+    var ct = d.getTime();
     if(!isEmpty($('#en_text').val()) && !isEmpty($('#bn_text').text())) {
       $("#loading").show();
       var user_input = $('#en_text').val();
@@ -118,7 +166,7 @@ function onClickHandler() {
       const db = client.getServiceClient(stitch.RemoteMongoClient.factory, 'mongodb-atlas').db('trans');
       client.auth.loginWithCredential(new stitch.AnonymousCredential()
       ).then(user =>
-          db.collection('bn').updateOne({owner_id: client.auth.user.id}, {$push:{ words :{en: user_input,bn: bn_text}}}, {upsert:true})  
+          db.collection('bn').updateOne({owner_id: client.auth.user.id}, {$push:{ words :{en: user_input,bn: bn_text,t:ct}}}, {upsert:true})  
       ).then(function(){
         counter += 1;
         var valeur = counter*100/max_c;
@@ -150,8 +198,12 @@ function onClickHandler() {
 $(document).ready(function () {
     $("#loading").hide();
     $("#btnCalcScore").hide();
+    $("#instructModal").modal('show');
     fetchContributionAndProgress();
     updateScore();
+    $("#btnGetStarted").click(function(){
+        $("#instructModal").modal('hide');
+    });
     $("#loading").hide();
     $("#btnSkip").click(function () {
         fetchRandomWords();
@@ -181,7 +233,7 @@ $(document).ready(function () {
     });
 
     $("#btnFBShare").click(function(){
-        //console.log('https://bn-trans.herokuapp.com/get_im?q='+user);
+        console.log('https://bn-trans.herokuapp.com/get_im?q='+user);
             FB.ui({
             method: 'share',
             href: 'https://bn-trans.herokuapp.com/get_im?q='+user,
