@@ -20,7 +20,7 @@ function initFBshare(){
     });
     FB.getLoginStatus(function(response) {
         if (response.status === 'connected') {
-            // base_image = new Image();
+            base_image = new Image();
             FB.api('/me', function(response) {
                 ctx.clearRect(0, 0, 500, 280);
                 user = response.id;
@@ -60,7 +60,7 @@ function initFBshare(){
                 if (response.authResponse) {
                 //console.log('Welcome!  Fetching your information.... ');
                 
-                
+                base_image = new Image();
                 FB.api('/me', function(response) {
                     ctx.clearRect(0, 0, 500, 280);
                     user = response.id;
