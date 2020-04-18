@@ -185,7 +185,7 @@ $(document).ready(function () {
     });
 
     $("#btnFBShare").click(function(){
-        //console.log('https://bn-trans.herokuapp.com/get_im?q='+user);
+        console.log('https://bn-trans.herokuapp.com/get_im?q='+user);
             FB.ui({
             method: 'share',
             href: 'https://bn-trans.herokuapp.com/get_im?q='+user,
