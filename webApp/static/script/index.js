@@ -176,6 +176,7 @@ function onClickHandler() {
 
 $(document).ready(function () {
     $("#loading").hide();
+    $("#btnCalcScore").hide();
     fetchContributionAndProgress();
     updateScore();
     $("#loading").hide();
