@@ -5,7 +5,8 @@ var counter = 0;
 var score = 0;
 var user = '';
 var avro = OmicronLab.Avro.Phonetic;
-
+var fbresponse ;
+var max_c = 5;
 function initFBshare(){
     var canvas = document.getElementById('canvas'),
     ctx = canvas.getContext('2d');
@@ -53,14 +54,9 @@ function initFBshare(){
             base_image = new Image();
             
             FB.api('/me', function(response) {
-
-                
                 user = response.id;
                 base_image.onload = function(){
                     ctx.drawImage(base_image, 42, 66,160,154);
-                    // ctx.strokeRect(36, 96, 154, 154);
-                    
-                    
                     ctx.font = "24px Arial";
                     ctx.fillText(response.name, 42, 40);
                     ctx.save()
@@ -79,20 +75,14 @@ function initFBshare(){
                 }
                 base_image.crossOrigin = "anonymous";
                 base_image.src = "https://graph.facebook.com/" + response.id + "/picture?type=large";
-                
-                
-                
-                
-                
-
                 console.log('Good to see you, ' + response.name + '.');
             });
             } else {
                 console.log('User cancelled login or did not fully authorize.');
-            }
-            
+            }            
         });
 }
+
 function fetchRandomWords(){
 $.ajax({
         type : "GET",
@@ -158,6 +148,8 @@ function onClickHandler() {
           db.collection('bn').updateOne({owner_id: client.auth.user.id}, {$push:{ words :{en: user_input,bn: bn_text}}}, {upsert:true})  
       ).then(function(){
         counter += 1;
+        var valeur = counter*100/max_c;
+        $('#pb').css('width', valeur+'%');
         var currentScore = levenshteinenator(avro_output, bn_text);
         var normalizedScore = getScoreFromSimilarityScore(currentScore);
         score += Math.round((normalizedScore / counter) * 100)
@@ -167,9 +159,9 @@ function onClickHandler() {
         fetchRandomWords();
         updateScore();
         console.log("Counter : " + counter + " Present Score : " + currentScore + " Total Score : " + score);
-        if(counter == 3){
-            $('#fbShareModal').modal('toggle');
-            initFBshare();
+        if(counter == max_c){
+            $("#pb").hide();
+            $("#btnCaclScore").show();
         }
       }).catch(err => {
         console.error(err)
@@ -194,6 +186,11 @@ $(document).ready(function () {
         }
     });
 
+    $("#btnCalcScore").click(function(){
+        $('#fbShareModal').modal('toggle');
+        initFBshare();
+    });
+    
     $("#btnFBShare").click(function(){
         console.log('https://bn-trans.herokuapp.com/get_im?q='+user);
             FB.ui({
