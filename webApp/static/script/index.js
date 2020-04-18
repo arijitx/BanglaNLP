@@ -150,11 +150,11 @@ function onClickHandler() {
 $(document).ready(function () {
     $("#loading").hide();
     $("#btnCalcScore").hide();
-    $("#instructModal").show();
+    $("#instructModal").modal('show');
     fetchContributionAndProgress();
     updateScore();
     $("#btnGetStarted").click(function(){
-        $("#instructModal").hide();
+        $("#instructModal").modal('hide');
     });
     $("#loading").hide();
     $("#btnSkip").click(function () {
