@@ -6,7 +6,9 @@
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+        <script src="https://connect.facebook.net/en_US/sdk.js"></script>
         <script async defer src="https://buttons.github.io/buttons.js"></script>
+        <script src="https://torifat.github.io/jsAvroPhonetic/libs/avro-keyboard/dist/avro-v1.1.4.min.js" type="text/javascript" charset="utf-8"></script>
         <style>
             #btnSubmit,
             #btnSkip{
@@ -15,6 +17,8 @@
             }
         </style>
         <script src="https://s3.amazonaws.com/stitch-sdks/js/bundles/4.6.0/stitch.js"></script>
+        <script type="text/javascript" src="https://bn-trans.herokuapp.com/static/script/score/translierate.js"></script> 
+       <script type="text/javascript" src="https://bn-trans.herokuapp.com/static/script/index.js"></script>
 
     </head>
     <body>
@@ -78,29 +82,54 @@
                     <button id="btnSkip" class="btn btn-primary btn-md center-block">Skip</button>
                     <button id="btnSubmit" class="btn btn-success btn-md center-block" >Submit</button>
                     <br><br><br>
-                    <span id="loading">sending ...</span>
+                    <span id="loading">Submitting ...</span>
+                    <br><br><br>
+                    <h3 style="display: none;">Your Score : <span id="score-area"></span></h3>
+                    <br><br><br>
+                    <div id="pbd" class="progress">
+                      <div id="pb" class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <button id="btnCalcScore" type="button" class="btn btn-primary">Calculate your Score</button>
+                    <div class="modal fade" id="fbShareModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h1 class="modal-title" id="exampleModalLabel">Your Bangla Score</h1>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                            <canvas id="canvas" width="500" height="280"></canvas>
+                            <canvas id='imc'></canvas>
+                          </div>
+                          <div class="modal-footer">
+                            <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
+                            <button id="btnFBShare" type="button" class="btn btn-primary">Share on Facebook</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                 </center>
               </div>
               <div class="col-sm-4">
                   <br><br>
                     <div class="jumbotron">
                         <h3 class="display-4"><b><u>Dataset</u></b></h3>
-                        <small>Dataset will be available <a href="github.com/arijitx/BanglaNLP">here</a></small><br/>
+                        <small>Dataset will be available in this Github <a href="https://github.com/arijitx/BanglaNLP">repository.</a></small><br/>
                         <!--<small>If you want to contribute drop a mail arijitmukh007@gmail.com</small>-->
-                        <br>
                         <br>
                         <a class="github-button" href="https://github.com/arijitx/BanglaNLP/subscription" data-color-scheme="no-preference: light; light: light; dark: dark;" data-icon="octicon-eye" data-show-count="true" aria-label="Watch arijitx/BanglaNLP on GitHub">Watch</a>
                         <a class="github-button" href="https://github.com/arijitx/BanglaNLP" data-color-scheme="no-preference: light; light: light; dark: dark;" data-icon="octicon-star" data-show-count="true" aria-label="Star arijitx/BanglaNLP on GitHub">Star</a>
 
                         <br><br>
                         <button class="btn btn-primary" type="button">
-                         Your contriution <span id="your_contrib" class="badge"></span>
+                         Your contribution <span id="your_contrib" class="badge"></span>
                         </button>
                         <br><br>
-                        Progress
                         <br>
                         <button class="btn btn-primary" type="button">
-                         Total words <span id="tot_words" class="badge"></span>
+                         Goal <span id="tot_words" class="badge"></span>
                         </button>
                         <br><br>
                         <div class="progress">
@@ -116,84 +145,5 @@
               </div>
             </div>
         </div>
-        <script>
-
-        </script>
-
-
-        <script>
-            const client = stitch.Stitch.initializeDefaultAppClient('bntransserve-fhipn');
-
-            function isEmpty(str) {
-                return (!str || !str.trim() || 0 === str.trim().length);
-            }
-
-            function onClickHandler() {
-                $("#loading").show();
-                // const client = stitch.Stitch.initializeDefaultAppClient('bntransserve-fhipn');
-
-                if(!isEmpty($('#en_text').val()) && !isEmpty($('#bn_text').text())) {
-                  const db = client.getServiceClient(stitch.RemoteMongoClient.factory, 'mongodb-atlas').db('trans');
-
-                  client.auth.loginWithCredential(new stitch.AnonymousCredential()
-                  ).then(user =>
-                      db.collection('bn').updateOne({owner_id: client.auth.user.id}, {$push:{ words :{en: $('#en_text').val(),bn: $('#bn_text').text()}}}, {upsert:true})
-                  ).then(function(){
-                    //   db.close();
-                    
-                      location.reload();
-                  }).catch(err => {
-                  console.error(err)
-                  });
-                }
-                
-                // location.reload();
-                // $.post("add",{en: $('#en_text').val(),bn: $('#bn_text').text()},function(data,status){
-
-                // });
-            }
-
-            $(document).ready(function(){
-                $("#loading").hide();
-                const db = client.getServiceClient(stitch.RemoteMongoClient.factory, 'mongodb-atlas').db('trans');
-
-                client.auth.loginWithCredential(new stitch.AnonymousCredential()).then(user =>
-
-                    db.collection('contrib_by_owner').find({owner_id: client.auth.user.id}, { limit: 100}).asArray()
-
-                ).then(docs => {
-                    console.log("Found docs", docs[0]["count"])
-                    $("#your_contrib").text(docs[0]["count"])
-                }).catch(err => {
-                    console.error(err)
-                });
-
-                client.auth.loginWithCredential(new stitch.AnonymousCredential()).then(user =>
-
-                    db.collection('total_words').find().asArray()
-
-                ).then(docs => {
-                    // console.log("Found docs", docs)
-                    $("#tot_words").text(docs[0]['total']+" / 10,000");
-                    var valeur = parseInt(docs[0]['total'])/100;
-                    $("#prog").attr("aria-valuenow",valeur).css('width', valeur+'%');
-                }).catch(err => {
-                    console.error(err)
-                });
-            });
-            
-            $("#loading").hide();
-            $("#btnSkip").click(function(){
-                location.reload();
-            });
-            $("#btnSubmit").click(onClickHandler);
-            $("#en_text").keydown(function(event){
-              if(event.keyCode === 27) {
-                location.reload();
-              } else if (event.keyCode === 13) {
-                onClickHandler();
-              }
-            });
-        </script>
     </body>
 </html>
