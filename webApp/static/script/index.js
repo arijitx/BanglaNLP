@@ -200,6 +200,11 @@ $(document).ready(function () {
                     FB.login(function(response) {
                         console.log("login");
                     });
+                    $("#loading").hide();
+                    $("#btnCalcScore").hide();
+                    $("#instructModal").modal('show');
+                    fetchContributionAndProgress();
+                    updateScore();
                 }
                 
             }
