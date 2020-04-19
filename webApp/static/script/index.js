@@ -12,16 +12,6 @@ var fbresponse ;
 var max_c = 5;
 function initFBshare(){
     
-    
-    
-    FB.init({
-        appId            : '531999777464234',
-        autoLogAppEvents : true,
-        xfbml            : true,
-        version          : 'v6.0'
-    });
-    
-    
     base_image = new Image();
     
     FB.api('/me', function(response) {
@@ -184,16 +174,25 @@ $(document).ready(function () {
             onClickHandler();
         }
     });
-    FB.getLoginStatus(function(response) {
-        console.log(response)
-        if(response.status == "connected"){
-            console.log("already logged in");
-        }else{
-            FB.login(function(response) {
-                console.log("login");
-            });
-        }
-    });
+    window.fbAsyncInit = function() {
+        FB.init({
+            appId            : '531999777464234',
+            autoLogAppEvents : true,
+            xfbml            : true,
+            version          : 'v6.0'
+        });
+        
+        FB.getLoginStatus(function(response) {
+            console.log(response)
+            if(response.status == "connected"){
+                console.log("already logged in");
+            }else{
+                FB.login(function(response) {
+                    console.log("login");
+                });
+            }
+        });
+    }
     $("#btnCalcScore").click(function(){
         $('#fbShareModal').modal('toggle');
         initFBshare();
