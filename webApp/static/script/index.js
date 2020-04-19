@@ -10,6 +10,12 @@ var user = '';
 var avro = OmicronLab.Avro.Phonetic;
 var fbresponse ;
 var max_c = 5;
+
+function isFacebookApp() {
+    var ua = navigator.userAgent || navigator.vendor || window.opera;
+    return (ua.indexOf("FBAN") > -1) || (ua.indexOf("FBAV") > -1);
+}
+
 function initFBshare(){
     
     base_image = new Image();
@@ -144,11 +150,7 @@ function onClickHandler() {
 }
 
 $(document).ready(function () {
-    $("#loading").hide();
-    $("#btnCalcScore").hide();
-    $("#instructModal").modal('show');
-    fetchContributionAndProgress();
-    updateScore();
+    
     $("#btnGetStarted").click(function(){
         $("#instructModal").modal('hide');
     });
@@ -181,15 +183,25 @@ $(document).ready(function () {
             xfbml            : true,
             version          : 'v6.0'
         });
-        
+
         FB.getLoginStatus(function(response) {
             console.log(response)
             if(response.status == "connected"){
+                $("#loading").hide();
+                $("#btnCalcScore").hide();
+                $("#instructModal").modal('show');
+                fetchContributionAndProgress();
+                updateScore();
                 console.log("already logged in");
             }else{
-                FB.login(function(response) {
-                    console.log("login");
-                });
+                if(isFacebookApp()){
+                    $("#fbLoginModal").modal('show');
+                }else{
+                    FB.login(function(response) {
+                        console.log("login");
+                    });
+                }
+                
             }
         });
     }
