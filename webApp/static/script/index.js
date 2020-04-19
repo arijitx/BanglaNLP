@@ -20,48 +20,44 @@ function initFBshare(){
         xfbml            : true,
         version          : 'v6.0'
     });
-    FB.login(function(response) {
-            if (response.authResponse) {
-            //console.log('Welcome!  Fetching your information.... ');
-            base_image = new Image();
-            
-            FB.api('/me', function(response) {
-                ctx.clearRect(0, 0, 500, 280);
-                user = response.id;
-                base_image.onload = function(){
-                    bg = new Image();
-                    bg.onload = function(){
-                        ctx.drawImage(bg,0,0);
-                        ctx.drawImage(base_image, 42, 66,160,154);
-                        ctx.font = "24px Arial";
-                        ctx.fillStyle = '#000';
-                        ctx.fillText(response.name, 42, 40);
-                        ctx.save()
-                        ctx.fillStyle = '#f11';
-                        ctx.fillText($("#score-area").text(),313,175);
-                        // ctx.rotate(-0.05*Math.PI);
-                        var dataURL = canvas.toDataURL('image/jpeg');
-                        //console.log(dataURL);
-                        user = user + Math.random().toString(36).slice(2);
-                        $.ajax({
-                            type: "POST", 
-                            url: "put_im", 
-                            data: { img: dataURL, uid: user }  
-                        }).done(function(msg){ 
-                            
-                        });
-                    }
-                    bg.src = "static/img/template.png";
+    
+    
+    base_image = new Image();
+    
+    FB.api('/me', function(response) {
+        ctx.clearRect(0, 0, 500, 280);
+        user = response.id;
+        base_image.onload = function(){
+            bg = new Image();
+            bg.onload = function(){
+                ctx.drawImage(bg,0,0);
+                ctx.drawImage(base_image, 42, 66,160,154);
+                ctx.font = "24px Arial";
+                ctx.fillStyle = '#000';
+                ctx.fillText(response.name, 42, 40);
+                ctx.save()
+                ctx.fillStyle = '#f11';
+                ctx.fillText($("#score-area").text(),313,175);
+                // ctx.rotate(-0.05*Math.PI);
+                var dataURL = canvas.toDataURL('image/jpeg');
+                //console.log(dataURL);
+                user = user + Math.random().toString(36).slice(2);
+                $.ajax({
+                    type: "POST", 
+                    url: "put_im", 
+                    data: { img: dataURL, uid: user }  
+                }).done(function(msg){ 
                     
-                }
-                base_image.crossOrigin = "anonymous";
-                base_image.src = "https://graph.facebook.com/" + response.id + "/picture?type=large";
-                //console.log('Good to see you, ' + response.name + '.');
-            });
-            } else {
-                //console.log('User cancelled login or did not fully authorize.');
-            }            
-        });
+                });
+            }
+            bg.src = "static/img/template.png";
+            
+        }
+        base_image.crossOrigin = "anonymous";
+        base_image.src = "https://graph.facebook.com/" + response.id + "/picture?type=large";
+        //console.log('Good to see you, ' + response.name + '.');
+    });
+    
 }
 
 function fetchRandomWords(){
@@ -188,7 +184,16 @@ $(document).ready(function () {
             onClickHandler();
         }
     });
-
+    FB.getLoginStatus(function(response) {
+        console.log(response)
+        if(response.status == "connected"){
+            console.log("already logged in");
+        }else{
+            FB.login(function(response) {
+                console.log("login");
+            });
+        }
+    });
     $("#btnCalcScore").click(function(){
         $('#fbShareModal').modal('toggle');
         initFBshare();
