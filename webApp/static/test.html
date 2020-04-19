@@ -1,13 +1,13 @@
 <html>
     <head>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="https://connect.facebook.net/en_US/sdk.js"></script>
         <script src="https://s3.amazonaws.com/stitch-sdks/js/bundles/4.6.0/stitch.js"></script>
         <script>
             window.fbAsyncInit = function() {
               
             };
-          </script>
+          </script> -->
           
           <style>
 
@@ -35,97 +35,104 @@
         <!-- <img id ="im" width="500" height="300" display></img> -->
         <canvas id="canvas" width="500" height="300"></canvas>
         <canvas id='imc'></canvas>
+        <div id="debug"></div>
+        <div id="fb-root"></div>
+        <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v6.0&appId=531999777464234&autoLogAppEvents=1"></script>
+        <div class="fb-login-button" data-size="large" data-button-type="continue_with" data-layout="default" data-auto-logout-link="false" data-use-continue-as="false" data-width=""></div>
         <script>
-            const client = stitch.Stitch.initializeDefaultAppClient('bntransserve-fhipn');
-            $(document).ready(function(){
-                // var user = client.auth.user.id;
-                var canvas = document.getElementById('canvas'),
-                ctx = canvas.getContext('2d');
-                ctx.strokeStyle = '#000';  // some color/style
-                ctx.lineWidth = 2;  
+            // const client = stitch.Stitch.initializeDefaultAppClient('bntransserve-fhipn');
+            // $(document).ready(function(){
+            //     // var user = client.auth.user.id;
+            //     var canvas = document.getElementById('canvas'),
+            //     ctx = canvas.getContext('2d');
+            //     ctx.strokeStyle = '#000';  // some color/style
+            //     ctx.lineWidth = 2;  
 
-                bg = new Image();
-                bg.onload = function(){
-                    ctx.drawImage(bg,0,0)
-                }
-                bg.src = "static/template.png";
-                function drawScrollbar () {
-                    var width = 30,
-                        height = 150,
-                        max = 100,
-                        val = 80,
-                        direction = 'vertical';
+            //     bg = new Image();
+            //     bg.onload = function(){
+            //         ctx.drawImage(bg,0,0)
+            //     }
+            //     bg.src = "static/template.png";
+            //     function drawScrollbar () {
+            //         var width = 30,
+            //             height = 150,
+            //             max = 100,
+            //             val = 80,
+            //             direction = 'vertical';
                     
-                    // Draw the background
-                    ctx.fillStyle = '#000';
-                    ctx.clearRect(250, 100, width, height);
-                    ctx.fillRect(250, 100, width, height);
+            //         // Draw the background
+            //         ctx.fillStyle = '#000';
+            //         ctx.clearRect(250, 100, width, height);
+            //         ctx.fillRect(250, 100, width, height);
 
-                    // Draw the fill
-                    ctx.fillStyle = '#777';
-                    var fillVal = Math.min(Math.max(val / max, 0), 1);
-                    if (direction === 'vertical') {
-                        ctx.fillRect(250,100, width, (max-val)*height/max );
-                        // ctx.strokeRect(248, 98, 32, 150);
+            //         // Draw the fill
+            //         ctx.fillStyle = '#777';
+            //         var fillVal = Math.min(Math.max(val / max, 0), 1);
+            //         if (direction === 'vertical') {
+            //             ctx.fillRect(250,100, width, (max-val)*height/max );
+            //             // ctx.strokeRect(248, 98, 32, 150);
 
-                    } else {
-                        ctx.fillRect(200, 100, fillVal * width, height);
-                    }
-                }
+            //         } else {
+            //             ctx.fillRect(200, 100, fillVal * width, height);
+            //         }
+            //     }
                 
-                FB.init({
-                    appId            : '531999777464234',
-                    autoLogAppEvents : true,
-                    xfbml            : true,
-                    version          : 'v6.0'
-                });
-                FB.login(function(response) {
-                        if (response.authResponse) {
-                        console.log('Welcome!  Fetching your information.... ');
-                        base_image = new Image();
+            //     FB.init({
+            //         appId            : '531999777464234',
+            //         autoLogAppEvents : true,
+            //         xfbml            : true,
+            //         version          : 'v6.0'
+            //     });
+            //     FB.getLoginStatus(function(response){
+            //         $("#debug").text(response);
+            //     });
+            //     FB.login(function(response) {
+            //             if (response.authResponse) {
+            //             console.log('Welcome!  Fetching your information.... ');
+            //             base_image = new Image();
                         
-                        FB.api('/me', function(response) {
+            //             FB.api('/me', function(response) {
 
                             
-                            var user = response.id;
-                            base_image.onload = function(){
-                                ctx.drawImage(base_image, 40, 100,150,150);
-                                // ctx.strokeRect(36, 96, 154, 154);
+            //                 var user = response.id;
+            //                 base_image.onload = function(){
+            //                     ctx.drawImage(base_image, 40, 100,150,150);
+            //                     // ctx.strokeRect(36, 96, 154, 154);
                                 
                                 
-                                ctx.font = "30px Arial";
-                                ctx.fillText(response.name, 10, 50);
-                                drawScrollbar();
-                                var dataURL = canvas.toDataURL('image/jpeg');
-                                console.log(dataURL);
-                                $.ajax({
-                                    type: "POST", 
-                                    url: "put_im", 
-                                    data: { img: dataURL, uid: user }  
-                                }).done(function(msg){ 
-                                    console.log('https://bn-trans.herokuapp.com/get_im?q='+user);
-                                    FB.ui({
-                                    method: 'share',
-                                    href: 'https://bn-trans.herokuapp.com/get_im?q='+user,
-                                }, function(response){});
-                                });
-                            }
-                            base_image.crossOrigin = "anonymous";
-                            base_image.src = "https://graph.facebook.com/" + response.id + "/picture?type=large";
+            //                     ctx.font = "30px Arial";
+            //                     ctx.fillText(response.name, 10, 50);
+            //                     drawScrollbar();
+            //                     var dataURL = canvas.toDataURL('image/jpeg');
+            //                     console.log(dataURL);
+            //                     $.ajax({
+            //                         type: "POST", 
+            //                         url: "put_im", 
+            //                         data: { img: dataURL, uid: user }  
+            //                     }).done(function(msg){ 
+            //                         console.log('https://bn-trans.herokuapp.com/get_im?q='+user);
+            //                         FB.ui({
+            //                         method: 'share',
+            //                         href: 'https://bn-trans.herokuapp.com/get_im?q='+user,
+            //                     }, function(response){});
+            //                     });
+            //                 }
+            //                 base_image.crossOrigin = "anonymous";
+            //                 base_image.src = "https://graph.facebook.com/" + response.id + "/picture?type=large";
                             
                             
                             
                             
                             
 
-                            console.log('Good to see you, ' + response.name + '.');
-                        });
-                        } else {
-                            console.log('User cancelled login or did not fully authorize.');
-                        }
+            //                 console.log('Good to see you, ' + response.name + '.');
+            //             });
+            //             } else {
+            //                 console.log('User cancelled login or did not fully authorize.');
+            //             }
                         
-                    });
-            });
+            //         });
+            // });
             
                                         
             
