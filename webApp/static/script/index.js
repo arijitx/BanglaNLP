@@ -197,8 +197,7 @@ $(document).ready(function () {
         }
     });
 
-    window.fbAsyncInit = function() {
-        console.log('init done');
+    
         FB.init({
             appId            : '531999777464234',
             autoLogAppEvents : true,
@@ -228,7 +227,7 @@ $(document).ready(function () {
                 
             }
         });
-    }
+    
     $("#btnCalcScore").click(function(){
         $('#fbShareModal').modal('toggle');
         initFBshare();
