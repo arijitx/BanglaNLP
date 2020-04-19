@@ -196,7 +196,9 @@ $(document).ready(function () {
             onClickHandler();
         }
     });
+
     window.fbAsyncInit = function() {
+        console.log('init done');
         FB.init({
             appId            : '531999777464234',
             autoLogAppEvents : true,
@@ -218,13 +220,10 @@ $(document).ready(function () {
                     $("#fbLoginModal").modal('show');
                 }else{
                     FB.login(function(response) {
+                        location.reload();
                         console.log("login");
                     });
-                    $("#loading").hide();
-                    $("#btnCalcScore").hide();
-                    $("#instructModal").modal('show');
-                    fetchContributionAndProgress();
-                    updateScore();
+                    
                 }
                 
             }
